@@ -1,0 +1,1736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mention Dashboard - Cubox.id</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #1E4D92;
+            --text-color: #2C3E50;
+            --border-color: #E5E5E5;
+            --background-color: #F8FAFC;
+            --sidebar-width: 240px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            border-right: 1px solid var(--border-color);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .logo {
+            padding: 12px 0;
+            margin-bottom: 24px;
+        }
+
+        .logo img {
+            height: 32px;
+        }
+
+        .project-selector {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: #F8FAFC;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            cursor: pointer;
+        }
+
+        .nav-section {
+            margin-bottom: 24px;
+        }
+
+        .nav-title {
+            font-size: 12px;
+            color: #64748B;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            padding: 0 12px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            color: #64748B;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item.active {
+            background: #F1F5F9;
+            color: var(--primary-color);
+        }
+
+        .nav-item i {
+            margin-right: 12px;
+            width: 20px;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 24px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .language-selector {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 1001;
+        }
+
+        .language-selector:hover {
+            background: #F8FAFC;
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px;
+            margin-top: 8px;
+            display: none;
+            min-width: 160px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .language-selector:hover .language-dropdown {
+            display: block;
+        }
+
+        .language-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .language-option:hover {
+            background: #F8FAFC;
+        }
+
+        .language-option.active {
+            background: #F1F5F9;
+        }
+
+        .language-option img {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        .language-option span {
+            font-size: 14px;
+            color: #64748B;
+        }
+
+        .language-option.active span {
+            color: var(--primary-color);
+        }
+
+        .notification-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: white;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .notification-button:hover {
+            background: #F8FAFC;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 8px;
+            height: 8px;
+            background: #EF4444;
+            border: 2px solid white;
+            border-radius: 50%;
+        }
+
+        .notification-icon {
+            color: #64748B;
+            font-size: 16px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px -1px rgba(0, 0, 0, 0.15);
+        }
+
+        .metric-card.mention {
+            grid-column: span 4;
+        }
+
+        .metric-card.reach {
+            grid-column: span 4;
+        }
+
+        .metric-card.map {
+            grid-column: span 4;
+        }
+
+        .metric-card.trend {
+            grid-column: span 8;
+        }
+
+        .metric-card.profile {
+            grid-column: span 4;
+        }
+
+        .metric-card.sources {
+            grid-column: span 4;
+        }
+
+        .metric-card.sources-card {
+            grid-column: span 4;
+        }
+
+        .metric-card.posts {
+            grid-column: span 4;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #64748B;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        .card-title i {
+            font-size: 12px;
+            color: #94A3B8;
+        }
+
+        .info-icon {
+            color: #94A3B8;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .circle-chart-container {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 20px;
+        }
+
+        .chart-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .stat-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .stat-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #64748B;
+        }
+
+        .stat-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .total-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .total-label {
+            font-size: 12px;
+            color: #64748B;
+        }
+
+        .total-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 16px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #64748B;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        #map {
+            height: 300px;
+            border-radius: 8px;
+        }
+
+        .trend-controls {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .trend-button {
+            padding: 6px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: white;
+            color: #64748B;
+            cursor: pointer;
+        }
+
+        .trend-button.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .profile-list {
+            margin-top: 16px;
+        }
+
+        .profile-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .profile-item:last-child {
+            border-bottom: none;
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-name {
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 4px;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 24px;
+            color: #64748B;
+            font-size: 13px;
+        }
+
+        .profile-stat {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .profile-stat-value {
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .media-sources {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            padding: 0;
+        }
+
+        .source-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            background: #F8FAFC;
+            border-radius: 8px;
+        }
+
+        .source-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .source-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 2px;
+        }
+
+        .source-value {
+            font-size: 12px;
+            color: #64748B;
+        }
+
+        .source-trend {
+            font-size: 11px;
+            font-weight: 500;
+            padding: 2px 6px;
+            border-radius: 100px;
+            background: rgba(34, 197, 94, 0.1);
+            color: #22C55E;
+            white-space: nowrap;
+        }
+
+        .source-trend.down {
+            background: rgba(239, 68, 68, 0.1);
+            color: #EF4444;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #64748B;
+            font-size: 14px;
+        }
+
+        .post-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .post-item {
+            background: #F8FAFC;
+            border-radius: 12px;
+            padding: 12px;
+            border: none;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .post-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .post-meta {
+            flex: 1;
+        }
+
+        .post-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 2px;
+        }
+
+        .post-time {
+            font-size: 12px;
+            color: #64748B;
+        }
+
+        .post-content {
+            color: #64748B;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            font-size: 13px;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 16px;
+            color: #64748B;
+            font-size: 13px;
+        }
+
+        .post-action {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .post-action:hover {
+            color: var(--primary-color);
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .avatar span {
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .status-dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 2px solid white;
+            background: #22C55E;
+            bottom: -2px;
+            right: -2px;
+        }
+
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 24px;
+        }
+
+        .pagination-button {
+            padding: 8px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: white;
+            color: #64748B;
+            cursor: pointer;
+        }
+
+        .pagination-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #64748B;
+        }
+
+        .sources-filter {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            padding: 0;
+        }
+
+        .filter-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #64748B;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .filter-checkbox input[type="checkbox"] {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            border: 1px solid #E5E5E5;
+            cursor: pointer;
+            margin: 0;
+        }
+
+        .filter-checkbox input[type="checkbox"]:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .profile-tabs {
+            display: flex;
+            margin: -24px -24px 24px -24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .profile-tab {
+            flex: 1;
+            padding: 16px;
+            background: transparent;
+            color: #64748B;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .profile-tab:hover {
+            color: var(--primary-color);
+        }
+
+        .profile-tab.active {
+            background: transparent;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .profile-content {
+            display: none;
+        }
+
+        .profile-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="assets/images/logo.svg" alt="Cubox">
+        </div>
+        <div class="project-selector">
+            <span>Project Name</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="nav-section">
+            <div class="nav-title">Main</div>
+            <a href="#" class="nav-item">
+                <i class="fas fa-chart-pie"></i>
+                Dashboard
+            </a>
+            <a href="#" class="nav-item active">
+                <i class="fas fa-comments"></i>
+                Mention
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                Summary
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-chart-bar"></i>
+                Analysis
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-database"></i>
+                Sources
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-exchange-alt"></i>
+                Compare
+            </a>
+        </div>
+        <div class="nav-section">
+            <div class="nav-title">Reports</div>
+            <a href="#" class="nav-item">
+                <i class="fas fa-envelope"></i>
+                Email Report
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-file-pdf"></i>
+                PDF Report
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-file-excel"></i>
+                Excel Report
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-robot"></i>
+                AI Assistance
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="header-left">
+                <h1 class="page-title">Mention</h1>
+            </div>
+            <div class="header-right">
+                <button class="notification-button">
+                    <i class="far fa-bell notification-icon"></i>
+                    <div class="notification-dot"></div>
+                </button>
+                <div class="language-selector" id="languageSelector">
+                    <img src="https://flagcdn.com/w20/us.png" alt="English" id="currentFlag">
+                    <span id="currentLang">EN</span>
+                    <i class="fas fa-chevron-down" style="font-size: 12px; color: #64748B;"></i>
+                    <div class="language-dropdown" id="languageDropdown">
+                        <div class="language-option active" data-lang="en" data-flag="us">
+                            <img src="https://flagcdn.com/w20/us.png" alt="English">
+                            <span>English</span>
+                        </div>
+                        <div class="language-option" data-lang="id" data-flag="id">
+                            <img src="https://flagcdn.com/w20/id.png" alt="Indonesia">
+                            <span>Indonesia</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="avatar">
+                    <span>A</span>
+                    <div class="status-dot"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <!-- Mention Card -->
+            <div class="metric-card mention">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        Mention
+                        <i class="fas fa-info-circle info-icon"></i>
+                    </h2>
+                </div>
+                <div class="circle-chart-container">
+                    <canvas id="mentionCircle"></canvas>
+                </div>
+                <div class="chart-stats">
+                    <div class="stat-row">
+                        <div class="stat-item">
+                            <div class="stat-dot" style="background: #4A90E2;"></div>
+                            <div class="stat-label">Social Media</div>
+                            <div class="stat-value">45%</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-dot" style="background: #F53D6B;"></div>
+                            <div class="stat-label">Non-Social Media</div>
+                            <div class="stat-value">24%</div>
+                        </div>
+                    </div>
+                    <div class="total-stats">
+                        <div class="total-label">Total Mention</div>
+                        <div class="total-value">1,356,989</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reach Card -->
+            <div class="metric-card reach">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        Reach
+                        <i class="fas fa-info-circle info-icon"></i>
+                    </h2>
+                </div>
+                <div class="circle-chart-container">
+                    <canvas id="reachCircle"></canvas>
+                </div>
+                <div class="chart-stats">
+                    <div class="stat-row">
+                        <div class="stat-item">
+                            <div class="stat-dot" style="background: #50E3C2;"></div>
+                            <div class="stat-label">Social Media</div>
+                            <div class="stat-value">45%</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-dot" style="background: #F5A623;"></div>
+                            <div class="stat-label">Non-Social Media</div>
+                            <div class="stat-value">24%</div>
+                        </div>
+                    </div>
+                    <div class="total-stats">
+                        <div class="total-label">Total Reach</div>
+                        <div class="total-value">40,356,989</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Map Card -->
+            <div class="metric-card map">
+                <div class="card-title">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Geo Location
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <div id="map" style="height: 300px;"></div>
+            </div>
+
+            <!-- Trend Card -->
+            <div class="metric-card trend">
+                <div class="card-title">
+                    <i class="fas fa-chart-line"></i>
+                    Mention & Reach
+                </div>
+                <div class="trend-controls">
+                    <button class="trend-button">Days</button>
+                    <button class="trend-button active">Weeks</button>
+                    <button class="trend-button">Month</button>
+                </div>
+                <canvas id="trendChart"></canvas>
+            </div>
+
+            <!-- Profile Card -->
+            <div class="metric-card profile">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        Profile
+                        <i class="fas fa-info-circle info-icon"></i>
+                    </h2>
+                </div>
+                <div class="profile-tabs">
+                    <button class="profile-tab active" data-tab="public">Top Public Profile</button>
+                    <button class="profile-tab" data-tab="sites">Most Influential Sites</button>
+                </div>
+                <div class="profile-content active" id="public-profiles">
+                    <div class="profile-item">
+                        <div class="profile-avatar" style="background: #7C3AED">K</div>
+                        <div class="profile-info">
+                            <div class="profile-name">KOMPASTV</div>
+                            <div class="profile-stats">
+                                <div class="profile-stat">
+                                    <span>Share</span>
+                                    <span class="profile-stat-value">24.2%</span>
+                                </div>
+                                <div class="profile-stat">
+                                    <span>Reach</span>
+                                    <span class="profile-stat-value">54M</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-item">
+                        <div class="profile-avatar" style="background: #EF4444">M</div>
+                        <div class="profile-info">
+                            <div class="profile-name">metrotvnews</div>
+                            <div class="profile-stats">
+                                <div class="profile-stat">
+                                    <span>Share</span>
+                                    <span class="profile-stat-value">12.9%</span>
+                                </div>
+                                <div class="profile-stat">
+                                    <span>Reach</span>
+                                    <span class="profile-stat-value">43M</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-item">
+                        <div class="profile-avatar" style="background: #F97316">T</div>
+                        <div class="profile-info">
+                            <div class="profile-name">tvOneNews</div>
+                            <div class="profile-stats">
+                                <div class="profile-stat">
+                                    <span>Share</span>
+                                    <span class="profile-stat-value">7.8%</span>
+                                </div>
+                                <div class="profile-stat">
+                                    <span>Reach</span>
+                                    <span class="profile-stat-value">12M</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-item">
+                        <div class="profile-avatar" style="background: #22C55E">T</div>
+                        <div class="profile-info">
+                            <div class="profile-name">Tribunnews</div>
+                            <div class="profile-stats">
+                                <div class="profile-stat">
+                                    <span>Share</span>
+                                    <span class="profile-stat-value">3.2%</span>
+                                </div>
+                                <div class="profile-stat">
+                                    <span>Reach</span>
+                                    <span class="profile-stat-value">6M</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-item">
+                        <div class="profile-avatar" style="background: #6366F1">I</div>
+                        <div class="profile-info">
+                            <div class="profile-name">Official iNews</div>
+                            <div class="profile-stats">
+                                <div class="profile-stat">
+                                    <span>Share</span>
+                                    <span class="profile-stat-value">2.2%</span>
+                                </div>
+                                <div class="profile-stat">
+                                    <span>Reach</span>
+                                    <span class="profile-stat-value">3M</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-content" id="influential-sites">
+                    <div class="profile-item">
+                        <div class="profile-avatar" style="background: #3B82F6">D</div>
+                        <div class="profile-info">
+                            <div class="profile-name">Detik.com</div>
+                            <div class="profile-stats">
+                                <div class="profile-stat">
+                                    <span>Share</span>
+                                    <span class="profile-stat-value">28.5%</span>
+                                </div>
+                                <div class="profile-stat">
+                                    <span>Reach</span>
+                                    <span class="profile-stat-value">62M</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-item">
+                        <div class="profile-avatar" style="background: #EC4899">C</div>
+                        <div class="profile-info">
+                            <div class="profile-name">CNN Indonesia</div>
+                            <div class="profile-stats">
+                                <div class="profile-stat">
+                                    <span>Share</span>
+                                    <span class="profile-stat-value">15.7%</span>
+                                </div>
+                                <div class="profile-stat">
+                                    <span>Reach</span>
+                                    <span class="profile-stat-value">45M</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-item">
+                        <div class="profile-avatar" style="background: #0EA5E9">K</div>
+                        <div class="profile-info">
+                            <div class="profile-name">Kompas.com</div>
+                            <div class="profile-stats">
+                                <div class="profile-stat">
+                                    <span>Share</span>
+                                    <span class="profile-stat-value">14.3%</span>
+                                </div>
+                                <div class="profile-stat">
+                                    <span>Reach</span>
+                                    <span class="profile-stat-value">38M</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-item">
+                        <div class="profile-avatar" style="background: #F59E0B">L</div>
+                        <div class="profile-info">
+                            <div class="profile-name">Liputan6.com</div>
+                            <div class="profile-stats">
+                                <div class="profile-stat">
+                                    <span>Share</span>
+                                    <span class="profile-stat-value">8.9%</span>
+                                </div>
+                                <div class="profile-stat">
+                                    <span>Reach</span>
+                                    <span class="profile-stat-value">25M</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-item">
+                        <div class="profile-avatar" style="background: #14B8A6">T</div>
+                        <div class="profile-info">
+                            <div class="profile-name">Tempo.co</div>
+                            <div class="profile-stats">
+                                <div class="profile-stat">
+                                    <span>Share</span>
+                                    <span class="profile-stat-value">5.8%</span>
+                                </div>
+                                <div class="profile-stat">
+                                    <span>Reach</span>
+                                    <span class="profile-stat-value">18M</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Media Sources Card -->
+            <div class="metric-card sources">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        Media Sources
+                        <i class="fas fa-info-circle info-icon"></i>
+                    </h2>
+                </div>
+                <div class="media-sources">
+                    <div class="source-item">
+                        <div class="source-icon">
+                            <i class="fab fa-facebook" style="color: #4267B2;"></i>
+                        </div>
+                        <div class="source-info">
+                            <div class="source-name">10K</div>
+                            <div class="source-value">Facebook</div>
+                        </div>
+                        <div class="source-trend">+10%</div>
+                    </div>
+                    <div class="source-item">
+                        <div class="source-icon">
+                            <i class="fas fa-video" style="color: #FF0000;"></i>
+                        </div>
+                        <div class="source-info">
+                            <div class="source-name">133</div>
+                            <div class="source-value">Video</div>
+                        </div>
+                        <div class="source-trend">+20%</div>
+                    </div>
+                    <div class="source-item">
+                        <div class="source-icon">
+                            <i class="fab fa-instagram" style="color: #E1306C;"></i>
+                        </div>
+                        <div class="source-info">
+                            <div class="source-name">20K</div>
+                            <div class="source-value">Instagram</div>
+                        </div>
+                        <div class="source-trend">+20%</div>
+                    </div>
+                    <div class="source-item">
+                        <div class="source-icon">
+                            <i class="far fa-newspaper" style="color: #1E4D92;"></i>
+                        </div>
+                        <div class="source-info">
+                            <div class="source-name">234</div>
+                            <div class="source-value">News</div>
+                        </div>
+                        <div class="source-trend">+20%</div>
+                    </div>
+                    <div class="source-item">
+                        <div class="source-icon">
+                            <i class="fab fa-twitter" style="color: #1DA1F2;"></i>
+                        </div>
+                        <div class="source-info">
+                            <div class="source-name">5K</div>
+                            <div class="source-value">X</div>
+                        </div>
+                        <div class="source-trend">+20%</div>
+                    </div>
+                    <div class="source-item">
+                        <div class="source-icon">
+                            <i class="fas fa-blog" style="color: #FF5722;"></i>
+                        </div>
+                        <div class="source-info">
+                            <div class="source-name">54</div>
+                            <div class="source-value">Blog</div>
+                        </div>
+                        <div class="source-trend">+20%</div>
+                    </div>
+                    <div class="source-item">
+                        <div class="source-icon">
+                            <i class="fab fa-tiktok" style="color: #000000;"></i>
+                        </div>
+                        <div class="source-info">
+                            <div class="source-name">8K</div>
+                            <div class="source-value">Tiktok</div>
+                        </div>
+                        <div class="source-trend">+20%</div>
+                    </div>
+                    <div class="source-item">
+                        <div class="source-icon">
+                            <i class="fas fa-microphone" style="color: #8257E5;"></i>
+                        </div>
+                        <div class="source-info">
+                            <div class="source-name">2</div>
+                            <div class="source-value">Podcast</div>
+                        </div>
+                        <div class="source-trend">+20%</div>
+                    </div>
+                    <div class="source-item">
+                        <div class="source-icon">
+                            <i class="fas fa-share-alt" style="color: #64748B;"></i>
+                        </div>
+                        <div class="source-info">
+                            <div class="source-name">1K</div>
+                            <div class="source-value">Other SocMed</div>
+                        </div>
+                        <div class="source-trend">+20%</div>
+                    </div>
+                    <div class="source-item">
+                        <div class="source-icon">
+                            <i class="fas fa-globe" style="color: #0EA5E9;"></i>
+                        </div>
+                        <div class="source-info">
+                            <div class="source-name">12</div>
+                            <div class="source-value">Website</div>
+                        </div>
+                        <div class="source-trend">+20%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sources Filter Card -->
+            <div class="metric-card sources-card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        Sources
+                        <i class="fas fa-info-circle info-icon"></i>
+                    </h2>
+                </div>
+                <div class="sources-filter">
+                    <label class="filter-checkbox">
+                        <input type="checkbox" checked>
+                        Facebook
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" checked>
+                        Other Social
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" checked>
+                        Instagram
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" checked>
+                        News
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" checked>
+                        Tiktok
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" checked>
+                        Blog
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" checked>
+                        Video
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" checked>
+                        Podcast
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" checked>
+                        Facebook
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" checked>
+                        Website
+                    </label>
+                </div>
+            </div>
+
+            <!-- Posts Card -->
+            <div class="metric-card posts">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        Sources Post
+                        <i class="fas fa-info-circle info-icon"></i>
+                    </h2>
+                </div>
+                <div class="post-list">
+                    <div class="post-item">
+                        <div class="post-header">
+                            <div class="post-avatar" style="background: #4267B2">F</div>
+                            <div class="post-meta">
+                                <div class="post-title">Facebook Indonesia</div>
+                                <div class="post-time">2024-03-15 09:30 AM</div>
+                            </div>
+                            <span class="source-trend">Positive</span>
+                        </div>
+                        <div class="post-content">
+                            Introducing our latest innovation in digital banking! Experience seamless transactions and enhanced security features...
+                        </div>
+                        <div class="post-actions">
+                            <div class="post-action">
+                                <i class="far fa-eye"></i>
+                                <span>Visit</span>
+                            </div>
+                            <div class="post-action">
+                                <i class="far fa-comment"></i>
+                                <span>Tag</span>
+                            </div>
+                            <div class="post-action">
+                                <i class="far fa-heart"></i>
+                                <span>Length</span>
+                            </div>
+                            <div class="post-action">
+                                <i class="far fa-trash-alt"></i>
+                                <span>Delete</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-item">
+                        <div class="post-header">
+                            <div class="post-avatar" style="background: #1DA1F2">X</div>
+                            <div class="post-meta">
+                                <div class="post-title">X Official</div>
+                                <div class="post-time">2024-03-15 10:15 AM</div>
+                            </div>
+                            <span class="source-trend">Neutral</span>
+                        </div>
+                        <div class="post-content">
+                            Breaking: Major tech companies announce collaboration on AI development initiatives. More updates to follow...
+                        </div>
+                        <div class="post-actions">
+                            <div class="post-action">
+                                <i class="far fa-eye"></i>
+                                <span>Visit</span>
+                            </div>
+                            <div class="post-action">
+                                <i class="far fa-comment"></i>
+                                <span>Tag</span>
+                            </div>
+                            <div class="post-action">
+                                <i class="far fa-heart"></i>
+                                <span>Length</span>
+                            </div>
+                            <div class="post-action">
+                                <i class="far fa-trash-alt"></i>
+                                <span>Delete</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-item">
+                        <div class="post-header">
+                            <div class="post-avatar" style="background: #E1306C">I</div>
+                            <div class="post-meta">
+                                <div class="post-title">Instagram Business</div>
+                                <div class="post-time">2024-03-15 11:45 AM</div>
+                            </div>
+                            <span class="source-trend">Positive</span>
+                        </div>
+                        <div class="post-content">
+                            Discover how businesses are leveraging our new features to enhance customer engagement and drive growth...
+                        </div>
+                        <div class="post-actions">
+                            <div class="post-action">
+                                <i class="far fa-eye"></i>
+                                <span>Visit</span>
+                            </div>
+                            <div class="post-action">
+                                <i class="far fa-comment"></i>
+                                <span>Tag</span>
+                            </div>
+                            <div class="post-action">
+                                <i class="far fa-heart"></i>
+                                <span>Length</span>
+                            </div>
+                            <div class="post-action">
+                                <i class="far fa-trash-alt"></i>
+                                <span>Delete</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pagination">
+                    <button class="pagination-button">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div class="pagination-info">
+                        <span>View</span>
+                        <i class="fas fa-external-link-alt"></i>
+                    </div>
+                    <button class="pagination-button">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize charts
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mention Circle Chart
+            const mentionCircleCtx = document.getElementById('mentionCircle').getContext('2d');
+            new Chart(mentionCircleCtx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [45, 24, 31],
+                        backgroundColor: ['#4A90E2', '#F53D6B', '#E5E5E5'],
+                        borderWidth: 0,
+                        cutout: '75%'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    aspectRatio: 1,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: true,
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.parsed}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Reach Circle Chart
+            const reachCircleCtx = document.getElementById('reachCircle').getContext('2d');
+            new Chart(reachCircleCtx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [45, 24, 31],
+                        backgroundColor: ['#50E3C2', '#F5A623', '#E5E5E5'],
+                        borderWidth: 0,
+                        cutout: '75%'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    aspectRatio: 1,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: true,
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.parsed}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Trend Chart
+            const trendCtx = document.getElementById('trendChart').getContext('2d');
+            new Chart(trendCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Mention',
+                        data: [100, 120, 150, 170, 160, 140, 180, 200, 170, 160, 150, 140],
+                        borderColor: '#3B82F6',
+                        tension: 0.4,
+                        fill: false
+                    },
+                    {
+                        label: 'Reach',
+                        data: [150, 140, 130, 160, 180, 200, 190, 170, 150, 140, 130, 120],
+                        borderColor: '#22C55E',
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                display: true,
+                                drawBorder: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Initialize map with interactions enabled
+            const map = L.map('map', {
+                center: [-2.5489, 118.0149], // Center on Indonesia
+                zoom: 5,
+                zoomControl: true,
+                attributionControl: false
+            });
+
+            // Add grayscale tile layer
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                maxZoom: 19,
+                minZoom: 3,
+            }).addTo(map);
+
+            // Location data with markers
+            const locations = [
+                {
+                    name: 'Jakarta',
+                    coords: [-6.2088, 106.8456],
+                    value: '45%',
+                    mentions: '523K'
+                },
+                {
+                    name: 'Surabaya',
+                    coords: [-7.2575, 112.7521],
+                    value: '30%',
+                    mentions: '342K'
+                },
+                {
+                    name: 'Medan',
+                    coords: [3.5952, 98.6722],
+                    value: '15%',
+                    mentions: '156K'
+                },
+                {
+                    name: 'Makassar',
+                    coords: [-5.1477, 119.4327],
+                    value: '10%',
+                    mentions: '98K'
+                },
+                {
+                    name: 'Bandung',
+                    coords: [-6.9175, 107.6191],
+                    value: '8%',
+                    mentions: '76K'
+                }
+            ];
+
+            // Custom marker icon
+            const customIcon = L.divIcon({
+                className: 'custom-marker',
+                html: `<div style="
+                    width: 40px;
+                    height: 40px;
+                    position: relative;
+                ">
+                    <div style="
+                        position: absolute;
+                        bottom: 0;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        width: 12px;
+                        height: 12px;
+                        background: #3B82F6;
+                        border-radius: 50%;
+                        border: 2px solid white;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+                    "></div>
+                    <div style="
+                        position: absolute;
+                        bottom: 4px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        width: 24px;
+                        height: 24px;
+                        background: rgba(59, 130, 246, 0.15);
+                        border-radius: 50%;
+                    "></div>
+                    <div style="
+                        position: absolute;
+                        bottom: 0;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        width: 36px;
+                        height: 36px;
+                        background: rgba(59, 130, 246, 0.08);
+                        border-radius: 50%;
+                    "></div>
+                </div>`,
+                iconSize: [40, 40],
+                iconAnchor: [20, 12],
+                popupAnchor: [0, -16]
+            });
+
+            // Create markers with popups
+            locations.forEach(location => {
+                const marker = L.marker(location.coords, { icon: customIcon });
+
+                // Custom popup content
+                const popupContent = `
+                    <div style="
+                        padding: 16px;
+                        min-width: 180px;
+                        font-family: 'Inter', sans-serif;
+                    ">
+                        <div style="
+                            font-weight: 600;
+                            font-size: 14px;
+                            margin-bottom: 12px;
+                            color: #2C3E50;
+                        ">${location.name}</div>
+                        <div style="
+                            display: flex;
+                            justify-content: space-between;
+                            font-size: 13px;
+                            color: #64748B;
+                            margin-bottom: 8px;
+                        ">
+                            <span>Share</span>
+                            <span style="color: #3B82F6; font-weight: 500;">${location.value}</span>
+                        </div>
+                        <div style="
+                            display: flex;
+                            justify-content: space-between;
+                            font-size: 13px;
+                            color: #64748B;
+                        ">
+                            <span>Mentions</span>
+                            <span style="color: #3B82F6; font-weight: 500;">${location.mentions}</span>
+                        </div>
+                    </div>
+                `;
+
+                marker.bindPopup(popupContent, {
+                    closeButton: false,
+                    className: 'custom-popup'
+                });
+
+                marker.on('mouseover', function() {
+                    this.openPopup();
+                });
+
+                marker.on('mouseout', function() {
+                    this.closePopup();
+                });
+
+                marker.addTo(map);
+            });
+
+            // Add zoom controls to top-right
+            L.control.zoom({
+                position: 'topright'
+            }).addTo(map);
+
+            // Add custom styles
+            const mapContainer = document.getElementById('map');
+            mapContainer.style.borderRadius = '8px';
+            mapContainer.style.overflow = 'hidden';
+
+            // Add custom styles for map and popups
+            const mapStyles = document.createElement('style');
+            mapStyles.textContent = `
+                .custom-popup .leaflet-popup-content-wrapper {
+                    border-radius: 8px;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                }
+                .custom-popup .leaflet-popup-tip {
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                }
+                .leaflet-control-zoom {
+                    border: none !important;
+                    margin-right: 24px !important;
+                    margin-top: 24px !important;
+                }
+                .leaflet-control-zoom a {
+                    border-radius: 8px !important;
+                    color: #64748B !important;
+                    border: 1px solid #E5E5E5 !important;
+                    width: 32px !important;
+                    height: 32px !important;
+                    line-height: 30px !important;
+                    font-size: 16px !important;
+                    background: white !important;
+                }
+                .leaflet-control-zoom a:hover {
+                    background: #F8FAFC !important;
+                    color: #2C3E50 !important;
+                }
+            `;
+            document.head.appendChild(mapStyles);
+
+            // Add tab functionality
+            const tabs = document.querySelectorAll('.profile-tab');
+            const contents = document.querySelectorAll('.profile-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+
+                    // Add active class to clicked tab and corresponding content
+                    tab.classList.add('active');
+                    const tabId = tab.dataset.tab === 'public' ? 'public-profiles' : 'influential-sites';
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+
+            const languageSelector = document.getElementById('languageSelector');
+            const currentFlag = document.getElementById('currentFlag');
+            const currentLang = document.getElementById('currentLang');
+            const languageDropdown = document.getElementById('languageDropdown');
+            const languageOptions = document.querySelectorAll('.language-option');
+
+            languageOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const lang = this.dataset.lang;
+                    const flag = this.dataset.flag;
+                    
+                    // Update current selection
+                    currentFlag.src = `https://flagcdn.com/w20/${flag}.png`;
+                    currentLang.textContent = lang.toUpperCase();
+                    
+                    // Update active state
+                    languageOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Close dropdown
+                    languageDropdown.style.display = 'none';
+                });
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!languageSelector.contains(event.target)) {
+                    languageDropdown.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Services - Cubox.id</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1E4D92;
+            --text-color: #2C3E50;
+            --border-color: #E5E5E5;
+            --background-color: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            min-height: 100vh;
+            display: flex;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 30%;
+            height: 100%;
+            background-image: url('assets/images/bg.svg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: left center;
+            opacity: 0.2;
+            z-index: 0;
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 32px;
+        }
+
+        .avatar {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .status-dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 2px solid white;
+            background: #22C55E;
+            bottom: -2px;
+            right: -2px;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .content-wrapper {
+            width: 100%;
+            max-width: 640px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(30, 77, 146, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), #3875D1);
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .service-header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .service-options {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .service-option {
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .service-option:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 8px 16px rgba(30, 77, 146, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .service-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(30, 77, 146, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 24px;
+        }
+
+        .service-details h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 8px;
+        }
+
+        .service-details p {
+            font-size: 14px;
+            color: #696B77;
+            line-height: 1.5;
+        }
+
+        .copyright {
+            text-align: center;
+            color: #696B77;
+            font-size: 12px;
+            padding: 20px;
+        }
+
+        .dark-mode-toggle {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            color: #696B77;
+            font-size: 14px;
+        }
+
+        .toggle-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 36px;
+            height: 20px;
+        }
+
+        input[type="checkbox"] {
+            display: none;
+        }
+
+        .switch-label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 36px;
+            height: 20px;
+            border-radius: 10px;
+            background: #E5E5E5;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .switch-label:after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        input[type="checkbox"]:checked + .switch-label {
+            background: var(--primary-color);
+        }
+
+        input[type="checkbox"]:checked + .switch-label:after {
+            left: calc(100% - 18px);
+        }
+
+        .shortcut {
+            padding: 4px 8px;
+            background: #F3F4F6;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #696B77;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 16px 20px;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .content-wrapper {
+                padding: 30px;
+            }
+
+            .service-option {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <img src="assets/images/logo.svg" alt="Cubox">
+            </div>
+            <div class="avatar">
+                <span>A</span>
+                <div class="status-dot"></div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="content-wrapper">
+                <h1 class="page-title">Memulai</h1>
+                <div class="service-box">
+                    <div class="service-header">
+                        <h2>Pilih Servis yang Diinginkan</h2>
+                    </div>
+                    <div class="service-options">
+                        <div class="service-option">
+                            <div class="service-icon">
+                                <i class="fas fa-bullhorn"></i>
+                            </div>
+                            <div class="service-details">
+                                <h3>Analisis Sentimen</h3>
+                                <p>Pantau Reputasi - Lindungi citra merek Anda dengan pemantauan reputasi yang akurat dan analitik real-time.</p>
+                            </div>
+                        </div>
+                        <div class="service-option">
+                            <div class="service-icon">
+                                <i class="fas fa-store"></i>
+                            </div>
+                            <div class="service-details">
+                                <h3>Analisis Market</h3>
+                                <p>Unggul di Pasar - Kuasai persaingan dengan wawasan mendalam tentang tren pasar dan perilaku konsumen.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright">
+            Copyrights cubox.id
+        </div>
+
+        <div class="dark-mode-toggle">
+            <div class="toggle-left">
+                <i class="fas fa-moon"></i>
+                <span>Dark Mode</span>
+                <div class="toggle-switch">
+                    <input type="checkbox" id="darkMode">
+                    <label for="darkMode" class="switch-label"></label>
+                </div>
+            </div>
+            <span class="shortcut">⌘K</span>
+        </div>
+    </div>
+</body>
+</html>

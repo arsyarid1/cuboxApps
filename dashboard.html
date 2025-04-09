@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cubox - Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="main.css">
+    <style>
+        /* Update base font */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 240px;
+            background: white;
+            border-right: 1px solid var(--border-color);
+            padding: 20px;
+        }
+
+        .main-content {
+            flex: 1;
+            background: var(--background-color);
+            padding: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 30px;
+        }
+
+        .logo img {
+            height: 32px;
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-title {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .nav-items {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 8px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .nav-link.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .nav-link:hover:not(.active) {
+            background: rgba(74, 144, 226, 0.1);
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .time-filter {
+            display: flex;
+            gap: 4px;
+            background: var(--background-color);
+            padding: 4px;
+            border-radius: 6px;
+        }
+
+        .time-filter button {
+            padding: 6px 16px;
+            border: none;
+            background: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--text-color);
+            transition: all 0.2s;
+        }
+
+        .time-filter button:hover {
+            background: rgba(74, 144, 226, 0.1);
+        }
+
+        .time-filter button.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Update chart options for better height */
+        #mentionChart {
+            max-height: 450px !important;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-icon {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .profile-list {
+            margin-top: 24px;
+        }
+
+        .profile-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .profile-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .media-sources {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .media-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+        }
+
+        .media-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .trend-value {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--success-color);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+
+        .circle-charts-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .circle-chart-container {
+            position: relative;
+            height: 150px;
+            width: 150px;
+            margin: 0 auto;
+        }
+
+        .sentiment-container {
+            position: relative;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+
+        .chart-label {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .chart-value {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .chart-stats {
+            margin-top: 20px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .total-stats {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .total-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .total-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .circle-chart-container {
+            position: relative;
+            height: 200px;
+            width: 200px;
+            margin: 0 auto;
+        }
+
+        .metric-card {
+            padding: 20px;
+            border-radius: 12px;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .metric-icon {
+            font-size: 38px;
+            color: #696B77;
+            margin-bottom: 16px;
+        }
+
+        .metric-value {
+            font-size: 24px;  /* Increased from original size */
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 8px;
+        }
+
+        .metric-label {
+            font-size: 15px;  /* Increased from original size */
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Header Right Section Styles */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .language-selector {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-color);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .language-selector img {
+            width: 18px;
+            height: 18px;
+            border-radius: 2px;
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 4px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 4px;
+            display: none;
+            z-index: 1000;
+            min-width: 120px;
+        }
+
+        .language-dropdown.show {
+            display: block;
+        }
+
+        .language-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .language-option:hover {
+            background: var(--background-color);
+        }
+
+        .language-option.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .profile-avatar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 4px 4px 8px;
+            border-radius: 24px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .profile-avatar:hover {
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .avatar-image {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #E91E63;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .notification-badge {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .notification-badge i {
+            color: var(--text-color);
+            font-size: 16px;
+        }
+
+        .notification-badge::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background: #E91E63;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .profile-info {
+            padding-right: 8px;
+        }
+
+        .profile-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .profile-role {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Add Toggle Switch Styles */
+        .toggle-switch {
+            position: relative;
+            width: 40px;
+            height: 20px;
+            margin-left: auto;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #E5E5E5;
+            transition: .4s;
+            border-radius: 20px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+
+        .nav-link.with-toggle {
+            justify-content: space-between;
+        }
+
+        .trend-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+            color: #4A4A4A;
+            font-size: 14px;
+        }
+
+        .trend-item:last-child {
+            border-bottom: none;
+        }
+
+        .metric-icon {
+            font-size: 38px;
+            color: #696B77;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="assets/images/logo.svg" alt="Cubox Logo">
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Main</div>
+                <ul class="nav-items">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active">
+                            <i class="fas fa-chart-line"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-comments"></i>
+                            Mention
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-file-alt"></i>
+                            Summary
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-chart-bar"></i>
+                            Analysis
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-database"></i>
+                            Sources
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-clone"></i>
+                            Compare
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Reports</div>
+                <ul class="nav-items">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-envelope"></i>
+                            Email Report
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-file-pdf"></i>
+                            PDF Report
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-file-excel"></i>
+                            Excel Report
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-robot"></i>
+                            AI Assistance
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Controls</div>
+                <ul class="nav-items">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link with-toggle">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <i class="fas fa-moon"></i>
+                                Dark Mode
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="darkModeToggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="dashboard-header">
+                <h1 class="page-title">Dashboard</h1>
+                <div class="header-right">
+                    <div class="notification-badge">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="language-selector" id="languageSelector">
+                        <img src="https://flagcdn.com/w20/us.png" alt="English" id="currentFlag">
+                        <span id="currentLang">EN</span>
+                        <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--text-secondary);"></i>
+                        <div class="language-dropdown" id="languageDropdown">
+                            <div class="language-option active" data-lang="en" data-flag="us">
+                                <img src="https://flagcdn.com/w20/us.png" alt="English">
+                                <span>English</span>
+                            </div>
+                            <div class="language-option" data-lang="id" data-flag="id">
+                                <img src="https://flagcdn.com/w20/id.png" alt="Indonesia">
+                                <span>Indonesia</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-avatar">
+                        <div class="avatar-image">A</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- Line Chart -->
+                <div class="card" style="grid-column: span 8;">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            Mention & Reach Trend
+                            <i class="fas fa-info-circle info-icon"></i>
+                        </h2>
+                        <div class="time-filter">
+                            <button class="active">Day</button>
+                            <button>Week</button>
+                            <button>Month</button>
+                        </div>
+                    </div>
+                    <div class="chart-container" style="height: 450px;">
+                        <canvas id="mentionChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Trend List -->
+                <div class="card" style="grid-column: span 4;">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            Trend
+                            <i class="fas fa-info-circle info-icon"></i>
+                        </h2>
+                    </div>
+                    <div id="trendItems"></div>
+                </div>
+
+                <!-- Mention Chart -->
+                <div class="card" style="grid-column: span 4;">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            Mention
+                            <i class="fas fa-info-circle info-icon"></i>
+                        </h2>
+                    </div>
+                    <div class="circle-chart-container" style="margin-bottom: 20px;">
+                        <canvas id="mentionCircle"></canvas>
+                    </div>
+                    <div class="chart-stats">
+                        <div class="stat-row">
+                            <div class="stat-item">
+                                <div class="stat-dot" style="background: #4A90E2;"></div>
+                                <div class="stat-label">Social Media</div>
+                                <div class="stat-value">45%</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-dot" style="background: #F53D6B;"></div>
+                                <div class="stat-label">Non-Social Media</div>
+                                <div class="stat-value">24%</div>
+                            </div>
+                        </div>
+                        <div class="total-stats">
+                            <div class="total-label">Total Mention</div>
+                            <div class="total-value">1,356,989</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reach Chart -->
+                <div class="card" style="grid-column: span 4;">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            Reach
+                            <i class="fas fa-info-circle info-icon"></i>
+                        </h2>
+                    </div>
+                    <div class="circle-chart-container" style="margin-bottom: 20px;">
+                        <canvas id="reachCircle"></canvas>
+                    </div>
+                    <div class="chart-stats">
+                        <div class="stat-row">
+                            <div class="stat-item">
+                                <div class="stat-dot" style="background: #50E3C2;"></div>
+                                <div class="stat-label">Social Media</div>
+                                <div class="stat-value">45%</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-dot" style="background: #F5A623;"></div>
+                                <div class="stat-label">Non-Social Media</div>
+                                <div class="stat-value">24%</div>
+                            </div>
+                        </div>
+                        <div class="total-stats">
+                            <div class="total-label">Total Reach</div>
+                            <div class="total-value">40,356,989</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Small Metric Cards -->
+                <div class="metric-cards" style="grid-column: 9 / span 4; grid-row: 2 / span 2; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+                    <div class="card metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="metric-value">12,800</div>
+                        <div class="metric-label">Mention</div>
+                    </div>
+                    <div class="card metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="metric-value">8,059</div>
+                        <div class="metric-label">Social Media mention</div>
+                    </div>
+                    <div class="card metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        <div class="metric-value">14,256</div>
+                        <div class="metric-label">Non-Social Media</div>
+                    </div>
+                    <div class="card metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="metric-value">142.5K</div>
+                        <div class="metric-label">Est. Social Media Reach</div>
+                    </div>
+                    <div class="card metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <div class="metric-value">1,935K</div>
+                        <div class="metric-label">Non Social Media Reach</div>
+                    </div>
+                    <div class="card metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-share-alt"></i>
+                        </div>
+                        <div class="metric-value">12,800</div>
+                        <div class="metric-label">Social Media Interaction</div>
+                    </div>
+                    <div class="card metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-pencil-alt"></i>
+                        </div>
+                        <div class="metric-value">12,800</div>
+                        <div class="metric-label">User Generated Content</div>
+                    </div>
+                    <div class="card metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="metric-value">12,800</div>
+                        <div class="metric-label">Social Media Likes</div>
+                    </div>
+                    <div class="card metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="metric-value">12,800</div>
+                        <div class="metric-label">Video Views</div>
+                    </div>
+                </div>
+
+                <!-- Sentiment Gauge -->
+                <div class="card" style="grid-column: span 4;">
+                    <div class="card-header">
+                        <h2 class="card-title">Sentiment</h2>
+                    </div>
+                    <div class="sentiment-container">
+                        <canvas id="sentimentGauge"></canvas>
+                    </div>
+                    <div class="sentiment-total">
+                        <div class="total-value">3,863</div>
+                        <div class="total-label">Total</div>
+                    </div>
+                </div>
+
+                <!-- Profile List -->
+                <div class="card" style="grid-column: span 4;">
+                    <div class="card-header">
+                        <h2 class="card-title">Profile</h2>
+                    </div>
+                    <div class="profile-list">
+                        <div class="profile-item">
+                            <div class="profile-info">
+                                <div class="profile-icon" style="background: #4A90E2;">K</div>
+                                <div class="profile-name">KOMPASTV</div>
+                            </div>
+                            <div class="profile-stats">
+                                <div>24.2%</div>
+                                <div>54M</div>
+                            </div>
+                        </div>
+                        <!-- Add more profile items -->
+                    </div>
+                </div>
+
+                <!-- Sentiment by Category -->
+                <div class="card" style="grid-column: span 4;">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            Sentiment by Category
+                            <i class="fas fa-info-circle info-icon"></i>
+                        </h2>
+                    </div>
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="sentimentCategoryChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Media Sources -->
+                <div class="card" style="grid-column: span 4;">
+                    <div class="card-header">
+                        <h2 class="card-title">Media Sources</h2>
+                    </div>
+                    <div class="media-sources">
+                        <div class="media-item">
+                            <div class="media-info">
+                                <i class="fab fa-facebook"></i>
+                                <span>10K</span>
+                            </div>
+                            <div class="trend-value">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>+20%</span>
+                            </div>
+                        </div>
+                        <!-- Add more media items -->
+                    </div>
+                </div>
+
+                <!-- Map -->
+                <div class="card" style="grid-column: span 4;">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            Geo Location
+                            <i class="fas fa-info-circle info-icon"></i>
+                        </h2>
+                    </div>
+                    <div id="map" style="height: 300px;"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mention & Reach Line Chart
+            const mentionCtx = document.getElementById('mentionChart').getContext('2d');
+            new Chart(mentionCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Mention',
+                        data: [100, 150, 120, 180, 200, 160, 140, 190, 210, 170, 130, 110],
+                        borderColor: '#4A90E2',
+                        tension: 0.4,
+                        fill: false
+                    }, {
+                        label: 'Reach',
+                        data: [150, 200, 180, 220, 240, 200, 180, 230, 250, 210, 170, 150],
+                        borderColor: '#50E3C2',
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    aspectRatio: 2,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                display: true,
+                                color: '#f0f0f0'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Mention Circle Chart
+            const mentionCircleCtx = document.getElementById('mentionCircle').getContext('2d');
+            new Chart(mentionCircleCtx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [45, 24, 31],
+                        backgroundColor: ['#4A90E2', '#F53D6B', '#E5E5E5'],
+                        borderWidth: 0,
+                        cutout: '75%'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    aspectRatio: 1,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: true,
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.parsed}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Reach Circle Chart
+            const reachCircleCtx = document.getElementById('reachCircle').getContext('2d');
+            new Chart(reachCircleCtx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [45, 24, 31],
+                        backgroundColor: ['#50E3C2', '#F5A623', '#E5E5E5'],
+                        borderWidth: 0,
+                        cutout: '75%'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    aspectRatio: 1,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: true,
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.parsed}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Sentiment Gauge Chart
+            const sentimentCtx = document.getElementById('sentimentGauge').getContext('2d');
+            new Chart(sentimentCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Positive', 'Neutral', 'Negative'],
+                    datasets: [{
+                        data: [65, 25, 10],
+                        backgroundColor: ['#50E3C2', '#E5E5E5', '#F53D6B'],
+                        borderWidth: 0,
+                        circumference: 180,
+                        rotation: 270,
+                        cutout: '75%'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    aspectRatio: 2,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                padding: 15
+                            }
+                        },
+                        tooltip: {
+                            enabled: true,
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.parsed}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Initialize map with interactions enabled
+            const map = L.map('map', {
+                center: [-2.5489, 118.0149], // Center on Indonesia
+                zoom: 5,
+                zoomControl: true,
+                attributionControl: false
+            });
+
+            // Add grayscale tile layer
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                maxZoom: 19,
+                minZoom: 3,
+            }).addTo(map);
+
+            // Location data with markers
+            const locations = [
+                {
+                    name: 'Jakarta',
+                    coords: [-6.2088, 106.8456],
+                    value: '45%',
+                    mentions: '523K'
+                },
+                {
+                    name: 'Surabaya',
+                    coords: [-7.2575, 112.7521],
+                    value: '30%',
+                    mentions: '342K'
+                },
+                {
+                    name: 'Medan',
+                    coords: [3.5952, 98.6722],
+                    value: '15%',
+                    mentions: '156K'
+                },
+                {
+                    name: 'Makassar',
+                    coords: [-5.1477, 119.4327],
+                    value: '10%',
+                    mentions: '98K'
+                },
+                {
+                    name: 'Bandung',
+                    coords: [-6.9175, 107.6191],
+                    value: '8%',
+                    mentions: '76K'
+                }
+            ];
+
+            // Custom marker icon
+            const customIcon = L.divIcon({
+                className: 'custom-marker',
+                html: `<div style="
+                    width: 40px;
+                    height: 40px;
+                    position: relative;
+                ">
+                    <div style="
+                        position: absolute;
+                        bottom: 0;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        width: 12px;
+                        height: 12px;
+                        background: #3B82F6;
+                        border-radius: 50%;
+                        border: 2px solid white;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+                    "></div>
+                    <div style="
+                        position: absolute;
+                        bottom: 4px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        width: 24px;
+                        height: 24px;
+                        background: rgba(59, 130, 246, 0.15);
+                        border-radius: 50%;
+                    "></div>
+                    <div style="
+                        position: absolute;
+                        bottom: 0;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        width: 36px;
+                        height: 36px;
+                        background: rgba(59, 130, 246, 0.08);
+                        border-radius: 50%;
+                    "></div>
+                </div>`,
+                iconSize: [40, 40],
+                iconAnchor: [20, 12],
+                popupAnchor: [0, -16]
+            });
+
+            // Create markers with popups
+            locations.forEach(location => {
+                const marker = L.marker(location.coords, { icon: customIcon });
+
+                // Custom popup content
+                const popupContent = `
+                    <div style="
+                        padding: 16px;
+                        min-width: 180px;
+                        font-family: 'Inter', sans-serif;
+                    ">
+                        <div style="
+                            font-weight: 600;
+                            font-size: 14px;
+                            margin-bottom: 12px;
+                            color: #2C3E50;
+                        ">${location.name}</div>
+                        <div style="
+                            display: flex;
+                            justify-content: space-between;
+                            font-size: 13px;
+                            color: #64748B;
+                            margin-bottom: 8px;
+                        ">
+                            <span>Share</span>
+                            <span style="color: #3B82F6; font-weight: 500;">${location.value}</span>
+                        </div>
+                        <div style="
+                            display: flex;
+                            justify-content: space-between;
+                            font-size: 13px;
+                            color: #64748B;
+                        ">
+                            <span>Mentions</span>
+                            <span style="color: #3B82F6; font-weight: 500;">${location.mentions}</span>
+                        </div>
+                    </div>
+                `;
+
+                marker.bindPopup(popupContent, {
+                    closeButton: false,
+                    className: 'custom-popup'
+                });
+
+                marker.on('mouseover', function() {
+                    this.openPopup();
+                });
+
+                marker.on('mouseout', function() {
+                    this.closePopup();
+                });
+
+                marker.addTo(map);
+            });
+
+            // Add zoom controls to top-right
+            L.control.zoom({
+                position: 'topright'
+            }).addTo(map);
+
+            // Add custom styles
+            const mapContainer = document.getElementById('map');
+            mapContainer.style.borderRadius = '8px';
+            mapContainer.style.overflow = 'hidden';
+
+            // Add custom styles for popups
+            const style = document.createElement('style');
+            style.textContent = `
+                .custom-popup .leaflet-popup-content-wrapper {
+                    border-radius: 8px;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                }
+                .custom-popup .leaflet-popup-tip {
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Populate trend items
+            const trends = [
+                { text: 'liverpool vs losc', value: '100K' },
+                { text: 'atlético madrid vs leverkusen', value: '50K' },
+                { text: 'al khaleej vs al-nassr', value: '100K' },
+                { text: 'atalanta vs sturm', value: '20K' },
+                { text: 'club brugge vs juventus', value: '20K' },
+                { text: 'bologna vs dortmund', value: '10K' },
+                { text: 'widiyanti putri', value: '10K' },
+                { text: 'banjir di kabupaten batang', value: '10K' },
+                { text: 'red spark', value: '10K' },
+                { text: 'ppg', value: '2K' }
+            ];
+
+            const trendContainer = document.getElementById('trendItems');
+            trends.forEach((trend, index) => {
+                const div = document.createElement('div');
+                div.className = 'trend-item';
+                div.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="color: #4A4A4A;">${index + 1}</span>
+                        <span style="color: #4A4A4A;">${trend.text}</span>
+                    </div>
+                    <span style="color: var(--primary-color);">${trend.value}</span>
+                `;
+                trendContainer.appendChild(div);
+            });
+
+            // Sentiment by Category Chart
+            const sentimentCategoryCtx = document.getElementById('sentimentCategoryChart').getContext('2d');
+            new Chart(sentimentCategoryCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Sports', 'Politics', 'Entertainment', 'Technology', 'Business'],
+                    datasets: [{
+                        label: 'Positive',
+                        data: [65, 45, 70, 55, 60],
+                        backgroundColor: '#50E3C2',
+                        barPercentage: 0.6,
+                        categoryPercentage: 0.8
+                    }, {
+                        label: 'Neutral',
+                        data: [25, 35, 20, 30, 25],
+                        backgroundColor: '#E5E5E5',
+                        barPercentage: 0.6,
+                        categoryPercentage: 0.8
+                    }, {
+                        label: 'Negative',
+                        data: [10, 20, 10, 15, 15],
+                        backgroundColor: '#F53D6B',
+                        barPercentage: 0.6,
+                        categoryPercentage: 0.8
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                padding: 15
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            stacked: true,
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Add click handlers for time filter buttons
+            document.querySelectorAll('.time-filter button').forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    document.querySelectorAll('.time-filter button').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    // Add active class to clicked button
+                    button.classList.add('active');
+                });
+            });
+
+            // Language Selector functionality
+            const languageSelector = document.getElementById('languageSelector');
+            const languageDropdown = document.getElementById('languageDropdown');
+            const currentFlag = document.getElementById('currentFlag');
+            const currentLang = document.getElementById('currentLang');
+
+            languageSelector.addEventListener('click', (e) => {
+                e.stopPropagation();
+                languageDropdown.classList.toggle('show');
+            });
+
+            document.addEventListener('click', () => {
+                languageDropdown.classList.remove('show');
+            });
+
+            document.querySelectorAll('.language-option').forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const lang = option.dataset.lang;
+                    const flag = option.dataset.flag;
+                    
+                    // Update current selection
+                    currentFlag.src = `https://flagcdn.com/w20/${flag}.png`;
+                    currentLang.textContent = lang.toUpperCase();
+                    
+                    // Update active state
+                    document.querySelectorAll('.language-option').forEach(opt => {
+                        opt.classList.remove('active');
+                    });
+                    option.classList.add('active');
+                    
+                    languageDropdown.classList.remove('show');
+                });
+            });
+
+            // Dark Mode Toggle functionality
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            darkModeToggle.addEventListener('change', () => {
+                document.body.classList.toggle('dark-mode');
+            });
+        });
+    </script>
+</body>
+</html> 

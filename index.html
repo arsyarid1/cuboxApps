@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cubox - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1E4D92;
+            --text-color: #2C3E50;
+            --border-color: #E5E5E5;
+            --background-color: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            background-image: url('assets/images/bg.svg');
+            background-repeat: repeat;
+            background-size: 300px;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-container {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8));
+        }
+
+        .login-container {
+            width: 50%;
+            padding: 40px;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8));
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 460px;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(30, 77, 146, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), #3875D1);
+        }
+
+        .hero-container {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100vh;
+            background-image: url('assets/images/hero.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(0, 0, 0, 0.7) 0%,
+                rgba(30, 77, 146, 0.6) 100%
+            );
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .login-title {
+            font-size: 36px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), #3875D1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .login-subtitle {
+            font-size: 18px;
+            color: #696B77;
+            margin-bottom: 40px;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-size: 14px;
+        }
+
+        .form-label i {
+            color: #696B77;
+            font-size: 16px;
+            cursor: help;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 15px;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(30, 77, 146, 0.1);
+            background: white;
+        }
+
+        .password-input-wrapper {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #696B77;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .sign-in-button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary-color), #3875D1);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sign-in-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 16px rgba(30, 77, 146, 0.2);
+        }
+
+        .copyright {
+            color: #696B77;
+            font-size: 12px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .dark-mode-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #696B77;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 12px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .dark-mode-toggle:hover {
+            background: white;
+            transform: translateY(-1px);
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 40px;
+            height: 20px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #E5E5E5;
+            transition: .4s;
+            border-radius: 20px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+
+        .background-pattern {
+            display: none;
+        }
+
+        @media (max-width: 1024px) {
+            .login-container {
+                width: 100%;
+                max-width: none;
+                padding: 24px;
+            }
+            
+            .login-card {
+                max-width: 400px;
+            }
+
+            .hero-container {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="logo">
+                    <img src="assets/images/logo.svg" alt="Cubox Logo">
+                </div>
+                <h1 class="login-title">One step closer</h1>
+                <h2 class="login-subtitle">to unlock the power of insight</h2>
+                <form>
+                    <div class="form-group">
+                        <label class="form-label">
+                            Business Email
+                            <i class="fas fa-info-circle"></i>
+                        </label>
+                        <input type="email" class="form-input" placeholder="me@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            Password
+                            <i class="fas fa-info-circle"></i>
+                        </label>
+                        <div class="password-input-wrapper">
+                            <input type="password" class="form-input" placeholder="••••••••">
+                            <button type="button" class="password-toggle">
+                                <i class="far fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" class="sign-in-button">Sign In</button>
+                </form>
+            </div>
+            <div class="copyright">
+                Copyrights cubox.id
+            </div>
+            <div class="dark-mode-toggle">
+                <i class="fas fa-moon"></i>
+                Dark Mode
+                <label class="toggle-switch">
+                    <input type="checkbox" id="darkModeToggle">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="hero-container">
+            <div class="hero-overlay"></div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        // Password toggle functionality
+        document.querySelector('.password-toggle').addEventListener('click', function() {
+            const input = this.previousElementSibling;
+            const icon = this.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+
+        // Dark mode toggle functionality
+        document.getElementById('darkModeToggle').addEventListener('change', function() {
+            document.body.classList.toggle('dark-mode');
+        });
+    </script>
+</body>
+</html>
