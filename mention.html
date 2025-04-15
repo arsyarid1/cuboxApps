@@ -54,14 +54,90 @@
         }
 
         .project-selector {
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px;
+            padding: 8px 12px;
             background: #F8FAFC;
             border-radius: 8px;
-            margin-bottom: 24px;
             cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 24px;
+        }
+
+        .project-selector:hover {
+            background: #F1F5F9;
+        }
+
+        .project-info {
+            flex: 1;
+        }
+
+        .project-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .project-selector i {
+            font-size: 14px;
+            color: #64748B;
+        }
+
+        .project-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            margin-top: 4px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 4px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .project-dropdown.show {
+            display: block;
+        }
+
+        .project-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .project-option:hover {
+            background: #F8FAFC;
+        }
+
+        .project-option.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .project-option.active .project-option-name {
+            color: white;
+        }
+
+        .project-option i {
+            font-size: 14px;
+            color: var(--primary-color);
+        }
+
+        .project-option.active i {
+            color: white;
+        }
+
+        .project-option-name {
+            font-size: 16px;
+            color: var(--text-color);
         }
 
         .nav-section {
@@ -84,6 +160,7 @@
             text-decoration: none;
             border-radius: 8px;
             margin-bottom: 4px;
+            font-size: 14px;
         }
 
         .nav-item.active {
@@ -94,6 +171,7 @@
         .nav-item i {
             margin-right: 12px;
             width: 20px;
+            font-size: 15px;
         }
 
         .main-content {
@@ -753,46 +831,46 @@
         </div>
         <div class="nav-section">
             <div class="nav-title">Main</div>
-            <a href="#" class="nav-item">
+            <a href="dashboard.html" class="nav-item">
                 <i class="fas fa-chart-pie"></i>
                 Dashboard
             </a>
-            <a href="#" class="nav-item active">
+            <a href="mention.html" class="nav-item active">
                 <i class="fas fa-comments"></i>
                 Mention
             </a>
-            <a href="#" class="nav-item">
+            <a href="summary.html" class="nav-item">
                 <i class="fas fa-chart-line"></i>
                 Summary
             </a>
-            <a href="#" class="nav-item">
+            <a href="analysis.html" class="nav-item">
                 <i class="fas fa-chart-bar"></i>
                 Analysis
             </a>
-            <a href="#" class="nav-item">
+            <a href="sources.html" class="nav-item">
                 <i class="fas fa-database"></i>
                 Sources
             </a>
-            <a href="#" class="nav-item">
+            <a href="compare.html" class="nav-item">
                 <i class="fas fa-exchange-alt"></i>
                 Compare
             </a>
         </div>
         <div class="nav-section">
             <div class="nav-title">Reports</div>
-            <a href="#" class="nav-item">
+            <a href="email-report.html" class="nav-item">
                 <i class="fas fa-envelope"></i>
                 Email Report
             </a>
-            <a href="#" class="nav-item">
+            <a href="pdf-report.html" class="nav-item">
                 <i class="fas fa-file-pdf"></i>
                 PDF Report
             </a>
-            <a href="#" class="nav-item">
+            <a href="excel-report.html" class="nav-item">
                 <i class="fas fa-file-excel"></i>
                 Excel Report
             </a>
-            <a href="#" class="nav-item">
+            <a href="ai-assistance.html" class="nav-item">
                 <i class="fas fa-robot"></i>
                 AI Assistance
             </a>
@@ -806,7 +884,7 @@
             </div>
             <div class="header-right">
                 <button class="notification-button">
-                    <i class="far fa-bell notification-icon"></i>
+                    <i class="fas fa-bell notification-icon"></i>
                     <div class="notification-dot"></div>
                 </button>
                 <div class="language-selector" id="languageSelector">
@@ -896,12 +974,26 @@
 
             <!-- Map Card -->
             <div class="metric-card map">
-                <div class="card-title">
-                    <i class="fas fa-map-marker-alt"></i>
-                    Geo Location
-                    <i class="fas fa-info-circle"></i>
+                <div class="card-header">
+                    <h2 class="card-title">
+                        Geo Location
+                        <i class="fas fa-info-circle info-icon"></i>
+                    </h2>
                 </div>
-                <div id="map" style="height: 300px;"></div>
+                <div id="map" style="height: 300px; width: 100%; position: relative; z-index: 1;">
+                    <div class="map-loading" style="
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        text-align: center;
+                        color: #64748B;
+                        font-size: 14px;
+                    ">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 24px; margin-bottom: 8px;"></i>
+                        <div>Loading map...</div>
+                    </div>
+                </div>
             </div>
 
             <!-- Trend Card -->
@@ -1496,101 +1588,78 @@
             const map = L.map('map', {
                 center: [-2.5489, 118.0149], // Center on Indonesia
                 zoom: 5,
-                zoomControl: true,
+                zoomControl: false,
                 attributionControl: false
-            });
+            }).setView([-2.5489, 118.0149], 5);
 
             // Add grayscale tile layer
             L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
                 maxZoom: 19,
                 minZoom: 3,
+                attribution: '© OpenStreetMap contributors'
             }).addTo(map);
 
-            // Location data with markers
-            const locations = [
-                {
-                    name: 'Jakarta',
-                    coords: [-6.2088, 106.8456],
-                    value: '45%',
-                    mentions: '523K'
-                },
-                {
-                    name: 'Surabaya',
-                    coords: [-7.2575, 112.7521],
-                    value: '30%',
-                    mentions: '342K'
-                },
-                {
-                    name: 'Medan',
-                    coords: [3.5952, 98.6722],
-                    value: '15%',
-                    mentions: '156K'
-                },
-                {
-                    name: 'Makassar',
-                    coords: [-5.1477, 119.4327],
-                    value: '10%',
-                    mentions: '98K'
-                },
-                {
-                    name: 'Bandung',
-                    coords: [-6.9175, 107.6191],
-                    value: '8%',
-                    mentions: '76K'
-                }
-            ];
+            // Add zoom controls to top-right
+            L.control.zoom({
+                position: 'topright'
+            }).addTo(map);
 
-            // Custom marker icon
-            const customIcon = L.divIcon({
-                className: 'custom-marker',
-                html: `<div style="
-                    width: 40px;
-                    height: 40px;
-                    position: relative;
-                ">
-                    <div style="
-                        position: absolute;
-                        bottom: 0;
-                        left: 50%;
-                        transform: translateX(-50%);
-                        width: 12px;
-                        height: 12px;
-                        background: #3B82F6;
-                        border-radius: 50%;
-                        border: 2px solid white;
-                        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-                    "></div>
-                    <div style="
-                        position: absolute;
-                        bottom: 4px;
-                        left: 50%;
-                        transform: translateX(-50%);
-                        width: 24px;
-                        height: 24px;
-                        background: rgba(59, 130, 246, 0.15);
-                        border-radius: 50%;
-                    "></div>
-                    <div style="
-                        position: absolute;
-                        bottom: 0;
-                        left: 50%;
-                        transform: translateX(-50%);
-                        width: 36px;
-                        height: 36px;
-                        background: rgba(59, 130, 246, 0.08);
-                        border-radius: 50%;
-                    "></div>
-                </div>`,
-                iconSize: [40, 40],
-                iconAnchor: [20, 12],
-                popupAnchor: [0, -16]
-            });
+            // Hide loading indicator when map is ready
+            document.querySelector('.map-loading').style.display = 'none';
 
-            // Create markers with popups
-            locations.forEach(location => {
-                const marker = L.marker(location.coords, { icon: customIcon });
+            // Province data with mentions
+            const provinceData = {
+                "DKI Jakarta": { mentions: 523000, share: 45 },
+                "Jawa Timur": { mentions: 342000, share: 30 },
+                "Sumatera Utara": { mentions: 156000, share: 15 },
+                "Sulawesi Selatan": { mentions: 98000, share: 10 },
+                "Jawa Barat": { mentions: 76000, share: 8 }
+            };
 
-                // Custom popup content
+            // Function to get color based on mention share
+            function getColor(share) {
+                return share > 40 ? '#1E4D92' :
+                       share > 30 ? '#3B82F6' :
+                       share > 20 ? '#60A5FA' :
+                       share > 10 ? '#93C5FD' :
+                                  '#BFDBFE';
+            }
+
+            // Style function for the GeoJSON layer
+            function style(feature) {
+                const provinceName = feature.properties.name;
+                const data = provinceData[provinceName] || { share: 0 };
+                return {
+                    fillColor: getColor(data.share),
+                    weight: 1,
+                    opacity: 1,
+                    color: 'white',
+                    fillOpacity: 0.7,
+                    dashArray: '3'
+                };
+            }
+
+            // Interaction functions
+            function highlightFeature(e) {
+                const layer = e.target;
+                layer.setStyle({
+                    weight: 2,
+                    color: '#666',
+                    fillOpacity: 0.8,
+                    dashArray: ''
+                });
+                layer.bringToFront();
+            }
+
+            function resetHighlight(e) {
+                geojsonLayer.resetStyle(e.target);
+            }
+
+            function onEachFeature(feature, layer) {
+                const provinceName = feature.properties.name;
+                const data = provinceData[provinceName] || { mentions: 0, share: 0 };
+                
+                // Popup content
                 const popupContent = `
                     <div style="
                         padding: 16px;
@@ -1602,7 +1671,7 @@
                             font-size: 14px;
                             margin-bottom: 12px;
                             color: #2C3E50;
-                        ">${location.name}</div>
+                        ">${provinceName}</div>
                         <div style="
                             display: flex;
                             justify-content: space-between;
@@ -1611,7 +1680,7 @@
                             margin-bottom: 8px;
                         ">
                             <span>Share</span>
-                            <span style="color: #3B82F6; font-weight: 500;">${location.value}</span>
+                            <span style="color: #3B82F6; font-weight: 500;">${data.share}%</span>
                         </div>
                         <div style="
                             display: flex;
@@ -1620,85 +1689,43 @@
                             color: #64748B;
                         ">
                             <span>Mentions</span>
-                            <span style="color: #3B82F6; font-weight: 500;">${location.mentions}</span>
+                            <span style="color: #3B82F6; font-weight: 500;">${data.mentions?.toLocaleString() || 0}</span>
                         </div>
                     </div>
                 `;
 
-                marker.bindPopup(popupContent, {
+                layer.bindPopup(popupContent, {
                     closeButton: false,
                     className: 'custom-popup'
                 });
 
-                marker.on('mouseover', function() {
-                    this.openPopup();
+                layer.on({
+                    mouseover: highlightFeature,
+                    mouseout: resetHighlight,
+                    click: (e) => {
+                        map.fitBounds(e.target.getBounds());
+                    }
                 });
+            }
 
-                marker.on('mouseout', function() {
-                    this.closePopup();
+            // Add the GeoJSON layer
+            fetch('assets/data/indonesia-provinces.geojson')
+                .then(response => response.json())
+                .then(data => {
+                    const geojsonLayer = L.geoJSON(data, {
+                        style: style,
+                        onEachFeature: onEachFeature
+                    }).addTo(map);
+                })
+                .catch(error => {
+                    console.error('Error loading GeoJSON:', error);
+                    document.querySelector('.map-loading').innerHTML = `
+                        <div style="color: #EF4444;">
+                            <i class="fas fa-exclamation-circle" style="font-size: 24px; margin-bottom: 8px;"></i>
+                            <div>Error loading map data</div>
+                        </div>
+                    `;
                 });
-
-                marker.addTo(map);
-            });
-
-            // Add zoom controls to top-right
-            L.control.zoom({
-                position: 'topright'
-            }).addTo(map);
-
-            // Add custom styles
-            const mapContainer = document.getElementById('map');
-            mapContainer.style.borderRadius = '8px';
-            mapContainer.style.overflow = 'hidden';
-
-            // Add custom styles for map and popups
-            const mapStyles = document.createElement('style');
-            mapStyles.textContent = `
-                .custom-popup .leaflet-popup-content-wrapper {
-                    border-radius: 8px;
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-                }
-                .custom-popup .leaflet-popup-tip {
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-                }
-                .leaflet-control-zoom {
-                    border: none !important;
-                    margin-right: 24px !important;
-                    margin-top: 24px !important;
-                }
-                .leaflet-control-zoom a {
-                    border-radius: 8px !important;
-                    color: #64748B !important;
-                    border: 1px solid #E5E5E5 !important;
-                    width: 32px !important;
-                    height: 32px !important;
-                    line-height: 30px !important;
-                    font-size: 16px !important;
-                    background: white !important;
-                }
-                .leaflet-control-zoom a:hover {
-                    background: #F8FAFC !important;
-                    color: #2C3E50 !important;
-                }
-            `;
-            document.head.appendChild(mapStyles);
-
-            // Add tab functionality
-            const tabs = document.querySelectorAll('.profile-tab');
-            const contents = document.querySelectorAll('.profile-content');
-
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    // Remove active class from all tabs and contents
-                    tabs.forEach(t => t.classList.remove('active'));
-                    contents.forEach(c => c.classList.remove('active'));
-
-                    // Add active class to clicked tab and corresponding content
-                    tab.classList.add('active');
-                    const tabId = tab.dataset.tab === 'public' ? 'public-profiles' : 'influential-sites';
-                    document.getElementById(tabId).classList.add('active');
-                });
-            });
 
             const languageSelector = document.getElementById('languageSelector');
             const currentFlag = document.getElementById('currentFlag');
@@ -1730,6 +1757,96 @@
                     languageDropdown.style.display = 'none';
                 }
             });
+
+            // Project Selector functionality
+            const projectSelector = document.getElementById('projectSelector');
+            const projectDropdown = document.getElementById('projectDropdown');
+
+            projectSelector.addEventListener('click', (e) => {
+                e.stopPropagation();
+                projectDropdown.classList.toggle('show');
+            });
+
+            document.addEventListener('click', () => {
+                projectDropdown.classList.remove('show');
+            });
+
+            document.querySelectorAll('.project-option').forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const name = option.querySelector('.project-option-name').textContent;
+                    
+                    // Update current selection
+                    document.querySelector('.project-name').textContent = name;
+                    
+                    // Update active state
+                    document.querySelectorAll('.project-option').forEach(opt => {
+                        opt.classList.remove('active');
+                        opt.querySelector('i')?.remove();
+                    });
+                    option.classList.add('active');
+                    if (!option.querySelector('i')) {
+                        option.insertAdjacentHTML('beforeend', '<i class="fas fa-check"></i>');
+                    }
+                    
+                    projectDropdown.classList.remove('show');
+                });
+            });
+
+            // Add custom styles for map and popups
+            const mapStyles = document.createElement('style');
+            mapStyles.textContent = `
+                .custom-popup .leaflet-popup-content-wrapper {
+                    border-radius: 8px;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                }
+                .custom-popup .leaflet-popup-tip {
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                }
+                .leaflet-control-zoom {
+                    border: none !important;
+                    margin-right: 24px !important;
+                    margin-top: 24px !important;
+                }
+                .leaflet-control-zoom a {
+                    border-radius: 8px !important;
+                    color: #64748B !important;
+                    border: 1px solid #E5E5E5 !important;
+                    width: 32px !important;
+                    height: 32px !important;
+                    line-height: 30px !important;
+                    font-size: 16px !important;
+                    background: white !important;
+                }
+                .leaflet-control-zoom a:hover {
+                    background: #F8FAFC !important;
+                    color: #2C3E50 !important;
+                }
+                .leaflet-control-zoom a.leaflet-control-zoom-in,
+                .leaflet-control-zoom a.leaflet-control-zoom-out {
+                    width: 32px !important;
+                    height: 32px !important;
+                    line-height: 30px !important;
+                    font-size: 16px !important;
+                    text-align: center !important;
+                    text-decoration: none !important;
+                    color: #64748B !important;
+                    background: white !important;
+                    border: 1px solid #E5E5E5 !important;
+                    border-radius: 8px !important;
+                    margin: 0 !important;
+                    padding: 0 !important;
+                }
+                .leaflet-control-zoom a.leaflet-control-zoom-in:hover,
+                .leaflet-control-zoom a.leaflet-control-zoom-out:hover {
+                    background: #F8FAFC !important;
+                    color: #2C3E50 !important;
+                }
+                .leaflet-control-zoom a.leaflet-control-zoom-in {
+                    margin-bottom: 4px !important;
+                }
+            `;
+            document.head.appendChild(mapStyles);
         });
     </script>
 </body>

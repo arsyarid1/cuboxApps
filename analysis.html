@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cubox - Analysis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="assets/images/logo.svg" alt="Cubox Logo">
+            </div>
+
+            <div class="project-selector" id="projectSelector">
+                <div class="project-info">
+                    <div class="project-name">Project Name</div>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+                <div class="project-dropdown" id="projectDropdown">
+                    <div class="project-option active">
+                        <div class="project-option-name">Project Name</div>
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="project-option">
+                        <div class="project-option-name">Marketing Campaign</div>
+                    </div>
+                    <div class="project-option">
+                        <div class="project-option-name">Brand Analysis</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">MAIN</div>
+                <ul class="nav-items">
+                    <li class="nav-item">
+                        <a href="dashboard.html" class="nav-link">
+                            <i class="fas fa-chart-line"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="mention.html" class="nav-link">
+                            <i class="fas fa-comments"></i>
+                            Mention
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="summary.html" class="nav-link">
+                            <i class="fas fa-file-alt"></i>
+                            Summary
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="analysis.html" class="nav-link active">
+                            <i class="fas fa-chart-bar"></i>
+                            Analysis
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="sources.html" class="nav-link">
+                            <i class="fas fa-database"></i>
+                            Sources
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="compare.html" class="nav-link">
+                            <i class="fas fa-clone"></i>
+                            Compare
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">REPORTS</div>
+                <ul class="nav-items">
+                    <li class="nav-item">
+                        <a href="email-report.html" class="nav-link">
+                            <i class="fas fa-envelope"></i>
+                            Email Report
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pdf-report.html" class="nav-link">
+                            <i class="fas fa-file-pdf"></i>
+                            PDF Report
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="excel-report.html" class="nav-link">
+                            <i class="fas fa-file-excel"></i>
+                            Excel Report
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="ai-assistance.html" class="nav-link">
+                            <i class="fas fa-robot"></i>
+                            AI Assistance
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Controls</div>
+                <ul class="nav-items">
+                    <li class="nav-item">
+                        <div class="nav-link with-toggle">
+                            <div class="toggle-label">
+                                <i class="fas fa-moon"></i>
+                                Dark Mode
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="darkModeToggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="dashboard-header">
+                <h1 class="page-title">Analysis</h1>
+                <div class="header-right">
+                    <div class="notification-badge">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    <div class="language-selector" id="languageSelector">
+                        <img src="https://flagcdn.com/w20/us.png" alt="English" id="currentFlag">
+                        <span id="currentLang">EN</span>
+                        <i class="fas fa-chevron-down"></i>
+                        <div class="language-dropdown" id="languageDropdown">
+                            <div class="language-option active" data-lang="en" data-flag="us">
+                                <img src="https://flagcdn.com/w20/us.png" alt="English">
+                                <span>English</span>
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="language-option" data-lang="id" data-flag="id">
+                                <img src="https://flagcdn.com/w20/id.png" alt="Indonesia">
+                                <span>Indonesia</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-avatar">
+                        <div class="avatar-image">A</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <!-- Brand Score -->
+                <div class="card brand-score">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            Brand Score
+                            <i class="fas fa-info-circle info-icon" title="Your overall brand performance score based on mentions, reach, and sentiment"></i>
+                        </h2>
+                    </div>
+                    <div class="brand-score-content">
+                        <div class="circle-chart-container">
+                            <canvas id="brandScoreChart"></canvas>
+                            <div class="score-display">
+                                <div class="score">67</div>
+                            </div>
+                        </div>
+                        <div class="score-info">
+                            <div class="score-comparison">
+                                Your score <span class="highlight">is higher than 76%</span> of brands in your industry
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Brand Score Trend -->
+                <div class="card brand-trend">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            Brand Score Trend
+                            <i class="fas fa-info-circle info-icon"></i>
+                        </h2>
+                        <div class="time-filter">
+                            <button class="active">Day</button>
+                            <button>Week</button>
+                            <button>Month</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="brandTrendChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Most Popular Mention -->
+                <div class="card mentions-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Most Popular Mention</h2>
+                    </div>
+                    <div class="mentions-list">
+                        <div class="mention-item">
+                            <div class="mention-avatar" style="background: #3B82F6">J</div>
+                            <div class="mention-content">
+                                <div class="mention-header">
+                                    <span class="mention-name">John Smith</span>
+                                    <span class="mention-time">2 hours ago</span>
+                                </div>
+                                <p class="mention-text">Just tried the new feature update from @brandname - absolutely amazing! The user interface is so intuitive and smooth. Definitely recommend checking it out! #TechUpdate #UserExperience</p>
+                                <div class="mention-stats">
+                                    <span class="stat"><i class="fas fa-heart"></i> 2.4K</span>
+                                    <span class="stat"><i class="fas fa-comment"></i> 428</span>
+                                    <span class="stat"><i class="fas fa-share"></i> 156</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mention-item">
+                            <div class="mention-avatar" style="background: #22C55E">T</div>
+                            <div class="mention-content">
+                                <div class="mention-header">
+                                    <span class="mention-name">TechReview</span>
+                                    <span class="mention-time">5 hours ago</span>
+                                </div>
+                                <p class="mention-text">Our in-depth review of @brandname's latest release shows impressive performance improvements. Full analysis coming soon! #ProductReview</p>
+                                <div class="mention-stats">
+                                    <span class="stat"><i class="fas fa-heart"></i> 1.8K</span>
+                                    <span class="stat"><i class="fas fa-comment"></i> 312</span>
+                                    <span class="stat"><i class="fas fa-share"></i> 134</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mention-item">
+                            <div class="mention-avatar" style="background: #EF4444">D</div>
+                            <div class="mention-content">
+                                <div class="mention-header">
+                                    <span class="mention-name">Digital Trends</span>
+                                    <span class="mention-time">8 hours ago</span>
+                                </div>
+                                <p class="mention-text">Breaking: @brandname announces revolutionary new features that could change the industry standard. Stay tuned for our exclusive coverage! #Innovation</p>
+                                <div class="mention-stats">
+                                    <span class="stat"><i class="fas fa-heart"></i> 1.5K</span>
+                                    <span class="stat"><i class="fas fa-comment"></i> 267</span>
+                                    <span class="stat"><i class="fas fa-share"></i> 98</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Public Profile Mentions -->
+                <div class="card mentions-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Top Public Profile Mentions</h2>
+                    </div>
+                    <div class="mentions-list">
+                        <div class="mention-item">
+                            <div class="mention-avatar" style="background: #7C3AED">M</div>
+                            <div class="mention-content">
+                                <div class="mention-header">
+                                    <span class="mention-name">Mark Anderson</span>
+                                    <span class="mention-time">1 hour ago</span>
+                                </div>
+                                <p class="mention-text">Impressed by the level of detail in @brandname's latest update. The attention to user feedback is remarkable. #CustomerExperience</p>
+                                <div class="mention-stats">
+                                    <span class="stat"><i class="fas fa-heart"></i> 3.2K</span>
+                                    <span class="stat"><i class="fas fa-comment"></i> 567</span>
+                                    <span class="stat"><i class="fas fa-share"></i> 234</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mention-item">
+                            <div class="mention-avatar" style="background: #F59E0B">S</div>
+                            <div class="mention-content">
+                                <div class="mention-header">
+                                    <span class="mention-name">Sarah Tech</span>
+                                    <span class="mention-time">4 hours ago</span>
+                                </div>
+                                <p class="mention-text">Finally, a product that delivers on its promises! @brandname has set a new benchmark in the industry. Looking forward to what's next! #Innovation</p>
+                                <div class="mention-stats">
+                                    <span class="stat"><i class="fas fa-heart"></i> 2.8K</span>
+                                    <span class="stat"><i class="fas fa-comment"></i> 489</span>
+                                    <span class="stat"><i class="fas fa-share"></i> 178</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mention-item">
+                            <div class="mention-avatar" style="background: #0EA5E9">P</div>
+                            <div class="mention-content">
+                                <div class="mention-header">
+                                    <span class="mention-name">Pro Review</span>
+                                    <span class="mention-time">6 hours ago</span>
+                                </div>
+                                <p class="mention-text">After extensive testing, we can confidently say @brandname's new features are game-changing. Full review drops tomorrow! #ProductReview</p>
+                                <div class="mention-stats">
+                                    <span class="stat"><i class="fas fa-heart"></i> 2.1K</span>
+                                    <span class="stat"><i class="fas fa-comment"></i> 378</span>
+                                    <span class="stat"><i class="fas fa-share"></i> 145</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Metrics Overview -->
+                <div class="card metrics-overview">
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <div class="metric-header">
+                                <i class="fas fa-comment"></i>
+                                <span>Total Mentions</span>
+                            </div>
+                            <div class="metric-value">329</div>
+                            <div class="metric-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>12.5%</span>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-header">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Total Reach</span>
+                            </div>
+                            <div class="metric-value">4.9M</div>
+                            <div class="metric-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>8.3%</span>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-header">
+                                <i class="fas fa-smile"></i>
+                                <span>Positive Mentions</span>
+                            </div>
+                            <div class="metric-value">41</div>
+                            <div class="metric-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>5.2%</span>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-header">
+                                <i class="fas fa-frown"></i>
+                                <span>Negative Mentions</span>
+                            </div>
+                            <div class="metric-value">188</div>
+                            <div class="metric-trend negative">
+                                <i class="fas fa-arrow-down"></i>
+                                <span>2.1%</span>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-header">
+                                <i class="fas fa-share-alt"></i>
+                                <span>Social Media Mentions</span>
+                            </div>
+                            <div class="metric-value">188</div>
+                            <div class="metric-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>15.7%</span>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-header">
+                                <i class="fas fa-newspaper"></i>
+                                <span>Non-Social Media</span>
+                            </div>
+                            <div class="metric-value">141</div>
+                            <div class="metric-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>9.3%</span>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-header">
+                                <i class="fas fa-bullseye"></i>
+                                <span>Est. SocMed Reach</span>
+                            </div>
+                            <div class="metric-value">4.0M</div>
+                            <div class="metric-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>7.8%</span>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-header">
+                                <i class="fas fa-globe"></i>
+                                <span>Non-SocMed Reach</span>
+                            </div>
+                            <div class="metric-value">969K</div>
+                            <div class="metric-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>4.2%</span>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-header">
+                                <i class="fas fa-comments"></i>
+                                <span>Social Interactions</span>
+                            </div>
+                            <div class="metric-value">55K</div>
+                            <div class="metric-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>11.3%</span>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-header">
+                                <i class="fas fa-heart"></i>
+                                <span>Social Media Likes</span>
+                            </div>
+                            <div class="metric-value">117</div>
+                            <div class="metric-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>23.5%</span>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-header">
+                                <i class="fas fa-comment-alt"></i>
+                                <span>Social Comments</span>
+                            </div>
+                            <div class="metric-value">9483</div>
+                            <div class="metric-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>18.7%</span>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-header">
+                                <i class="fas fa-share"></i>
+                                <span>Social Shares</span>
+                            </div>
+                            <div class="metric-value">108</div>
+                            <div class="metric-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>14.2%</span>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-header">
+                                <i class="fas fa-users"></i>
+                                <span>User Generated</span>
+                            </div>
+                            <div class="metric-value">23</div>
+                            <div class="metric-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>8.9%</span>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-header">
+                                <i class="fas fa-newspaper"></i>
+                                <span>Non-SocMed Mentions</span>
+                            </div>
+                            <div class="metric-value">728</div>
+                            <div class="metric-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>6.4%</span>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-header">
+                                <i class="fas fa-play-circle"></i>
+                                <span>Video Views</span>
+                            </div>
+                            <div class="metric-value">283</div>
+                            <div class="metric-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>21.3%</span>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-header">
+                                <i class="fas fa-video"></i>
+                                <span>Video Interaction</span>
+                            </div>
+                            <div class="metric-value">23</div>
+                            <div class="metric-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>15.8%</span>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-header">
+                                <i class="fas fa-thumbs-up"></i>
+                                <span>Video Reactions</span>
+                            </div>
+                            <div class="metric-value">32/100</div>
+                            <div class="metric-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>15.8%</span>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-header">
+                                <i class="fas fa-chart-pie"></i>
+                                <span>Brand Score</span>
+                            </div>
+                            <div class="metric-value">67</div>
+                            <div class="metric-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>9.4%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mention & Reach -->
+                <div class="card chart-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            Mention & Reach
+                            <i class="fas fa-info-circle info-icon"></i>
+                        </h2>
+                        <div class="time-filter">
+                            <button class="active">Days</button>
+                            <button>Weeks</button>
+                            <button>Month</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="mentionReachChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Mention by Category -->
+                <div class="card chart-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            Mention by Category
+                            <i class="fas fa-info-circle info-icon"></i>
+                        </h2>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Sentiment -->
+                <div class="card chart-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            Sentiment
+                            <i class="fas fa-info-circle info-icon"></i>
+                        </h2>
+                        <div class="time-filter">
+                            <button class="active">Days</button>
+                            <button>Weeks</button>
+                            <button>Month</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="sentimentChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Sentiment by Category -->
+                <div class="card chart-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            Sentiment by Category
+                            <i class="fas fa-info-circle info-icon"></i>
+                        </h2>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="sentimentCategoryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Analysis Cards -->
+            <div class="analysis-grid">
+                <!-- Most Influential -->
+                <div class="card influence-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Most Influential</h2>
+                        <div class="tab-buttons">
+                            <button class="tab-button active">Today</button>
+                            <button class="tab-button">Week</button>
+                            <button class="tab-button">Month</button>
+                        </div>
+                    </div>
+                    <div class="profile-list">
+                        <div class="profile-item">
+                            <div class="profile-avatar" style="background: #3B82F6">T</div>
+                            <div class="profile-info">
+                                <div class="profile-name">TechInsider</div>
+                                <div class="profile-handle">@techinsider</div>
+                            </div>
+                            <div class="profile-stats">
+                                <div class="stat-value">98.5K</div>
+                                <div class="stat-label">Influence</div>
+                            </div>
+                        </div>
+                        <div class="profile-item">
+                            <div class="profile-avatar" style="background: #22C55E">D</div>
+                            <div class="profile-info">
+                                <div class="profile-name">Digital Trends</div>
+                                <div class="profile-handle">@digitaltrends</div>
+                            </div>
+                            <div class="profile-stats">
+                                <div class="stat-value">76.2K</div>
+                                <div class="stat-label">Influence</div>
+                            </div>
+                        </div>
+                        <div class="profile-item">
+                            <div class="profile-avatar" style="background: #EF4444">T</div>
+                            <div class="profile-info">
+                                <div class="profile-name">Tech Review</div>
+                                <div class="profile-handle">@techreview</div>
+                            </div>
+                            <div class="profile-stats">
+                                <div class="stat-value">65.8K</div>
+                                <div class="stat-label">Influence</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Most Followers -->
+                <div class="card followers-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Most Followers</h2>
+                        <div class="tab-buttons">
+                            <button class="tab-button active">Today</button>
+                            <button class="tab-button">Week</button>
+                            <button class="tab-button">Month</button>
+                        </div>
+                    </div>
+                    <div class="profile-list">
+                        <div class="profile-item">
+                            <div class="profile-avatar" style="background: #8B5CF6">M</div>
+                            <div class="profile-info">
+                                <div class="profile-name">Media Today</div>
+                                <div class="profile-handle">@mediatoday</div>
+                            </div>
+                            <div class="profile-stats">
+                                <div class="stat-value">245K</div>
+                                <div class="stat-label">Followers</div>
+                            </div>
+                        </div>
+                        <div class="profile-item">
+                            <div class="profile-avatar" style="background: #EC4899">N</div>
+                            <div class="profile-info">
+                                <div class="profile-name">News Network</div>
+                                <div class="profile-handle">@newsnetwork</div>
+                            </div>
+                            <div class="profile-stats">
+                                <div class="stat-value">189K</div>
+                                <div class="stat-label">Followers</div>
+                            </div>
+                        </div>
+                        <div class="profile-item">
+                            <div class="profile-avatar" style="background: #F59E0B">T</div>
+                            <div class="profile-info">
+                                <div class="profile-name">Tech Daily</div>
+                                <div class="profile-handle">@techdaily</div>
+                            </div>
+                            <div class="profile-stats">
+                                <div class="stat-value">156K</div>
+                                <div class="stat-label">Followers</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Most Active Sites -->
+                <div class="card active-sites-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Most Active Sites</h2>
+                    </div>
+                    <div class="sources-grid">
+                        <div class="source-item">
+                            <div class="source-icon facebook">
+                                <i class="fab fa-facebook"></i>
+                            </div>
+                            <div class="source-info">
+                                <div class="source-value">45.2K</div>
+                                <div class="source-name">Facebook</div>
+                            </div>
+                            <div class="source-trend">+12%</div>
+                        </div>
+                        <div class="source-item">
+                            <div class="source-icon twitter">
+                                <i class="fab fa-twitter"></i>
+                            </div>
+                            <div class="source-info">
+                                <div class="source-value">38.9K</div>
+                                <div class="source-name">Twitter</div>
+                            </div>
+                            <div class="source-trend">+8%</div>
+                        </div>
+                        <div class="source-item">
+                            <div class="source-icon instagram">
+                                <i class="fab fa-instagram"></i>
+                            </div>
+                            <div class="source-info">
+                                <div class="source-value">32.4K</div>
+                                <div class="source-name">Instagram</div>
+                            </div>
+                            <div class="source-trend">+15%</div>
+                        </div>
+                        <div class="source-item">
+                            <div class="source-icon linkedin">
+                                <i class="fab fa-linkedin"></i>
+                            </div>
+                            <div class="source-info">
+                                <div class="source-value">28.7K</div>
+                                <div class="source-name">LinkedIn</div>
+                            </div>
+                            <div class="source-trend">+6%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Link Trends -->
+                <div class="card link-trends-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Link Trends</h2>
+                    </div>
+                    <div class="trends-list">
+                        <div class="trend-item">
+                            <div class="trend-info">
+                                <div class="trend-title">Product Launch Coverage</div>
+                                <div class="trend-url">example.com/launch</div>
+                            </div>
+                            <div class="trend-stats">
+                                <div class="stat-value">2.4K</div>
+                                <div class="stat-label">Shares</div>
+                            </div>
+                        </div>
+                        <div class="trend-item">
+                            <div class="trend-info">
+                                <div class="trend-title">Feature Review</div>
+                                <div class="trend-url">review.com/feature</div>
+                            </div>
+                            <div class="trend-stats">
+                                <div class="stat-value">1.8K</div>
+                                <div class="stat-label">Shares</div>
+                            </div>
+                        </div>
+                        <div class="trend-item">
+                            <div class="trend-info">
+                                <div class="trend-title">Tech News Update</div>
+                                <div class="trend-url">news.com/tech</div>
+                            </div>
+                            <div class="trend-stats">
+                                <div class="stat-value">1.2K</div>
+                                <div class="stat-label">Shares</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hashtag Trends -->
+                <div class="card hashtag-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Top Hashtags</h2>
+                    </div>
+                    <div class="hashtag-grid">
+                        <div class="hashtag-item">
+                            <div class="hashtag-name">#TechUpdate</div>
+                            <div class="hashtag-count">5.2K mentions</div>
+                            <div class="hashtag-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>24%</span>
+                            </div>
+                        </div>
+                        <div class="hashtag-item">
+                            <div class="hashtag-name">#Innovation</div>
+                            <div class="hashtag-count">3.8K mentions</div>
+                            <div class="hashtag-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>18%</span>
+                            </div>
+                        </div>
+                        <div class="hashtag-item">
+                            <div class="hashtag-name">#ProductLaunch</div>
+                            <div class="hashtag-count">2.9K mentions</div>
+                            <div class="hashtag-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>15%</span>
+                            </div>
+                        </div>
+                        <div class="hashtag-item">
+                            <div class="hashtag-name">#UserExperience</div>
+                            <div class="hashtag-count">2.1K mentions</div>
+                            <div class="hashtag-trend negative">
+                                <i class="fas fa-arrow-down"></i>
+                                <span>8%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Language Selector functionality
+            const languageSelector = document.getElementById('languageSelector');
+            const languageDropdown = document.getElementById('languageDropdown');
+            const currentFlag = document.getElementById('currentFlag');
+            const currentLang = document.getElementById('currentLang');
+
+            languageSelector.addEventListener('click', (e) => {
+                e.stopPropagation();
+                languageDropdown.classList.toggle('show');
+            });
+
+            document.addEventListener('click', () => {
+                languageDropdown.classList.remove('show');
+            });
+
+            document.querySelectorAll('.language-option').forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const lang = option.dataset.lang;
+                    const flag = option.dataset.flag;
+                    
+                    // Update current selection
+                    currentFlag.src = `https://flagcdn.com/w20/${flag}.png`;
+                    currentLang.textContent = lang.toUpperCase();
+                    
+                    // Update active state
+                    document.querySelectorAll('.language-option').forEach(opt => {
+                        opt.classList.remove('active');
+                    });
+                    option.classList.add('active');
+                    
+                    languageDropdown.classList.remove('show');
+                });
+            });
+
+            // Brand Score Chart
+            const brandScoreCtx = document.getElementById('brandScoreChart').getContext('2d');
+            new Chart(brandScoreCtx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [67, 33],
+                        backgroundColor: [
+                            'rgba(34, 197, 94, 1)',  // Main score color
+                            'rgba(229, 229, 229, 0.2)' // Background color
+                        ],
+                        borderWidth: 0,
+                        cutout: '85%',
+                        borderRadius: 20
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: false
+                        }
+                    },
+                    animation: {
+                        animateRotate: true,
+                        animateScale: true
+                    }
+                }
+            });
+
+            // Brand Trend Chart
+            const brandTrendCtx = document.getElementById('brandTrendChart').getContext('2d');
+            new Chart(brandTrendCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        data: [65, 70, 68, 72, 75, 70, 68, 75, 80, 78, 82, 85],
+                        borderColor: '#3B82F6',
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#f0f0f0'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Mention & Reach Chart
+            const mentionReachCtx = document.getElementById('mentionReachChart').getContext('2d');
+            new Chart(mentionReachCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Mentions',
+                        data: [150, 180, 160, 140, 120, 160, 180, 210, 180, 160, 140, 120],
+                        borderColor: '#3B82F6',
+                        tension: 0.4,
+                        fill: false
+                    }, {
+                        label: 'Reach',
+                        data: [200, 220, 200, 180, 160, 200, 220, 240, 220, 200, 180, 160],
+                        borderColor: '#22C55E',
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#f0f0f0'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Category Chart
+            const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+            new Chart(categoryCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['X', 'Facebook', 'Instagram', 'News', 'Blog', 'Others'],
+                    datasets: [{
+                        data: [30, 25, 20, 15, 5, 5],
+                        backgroundColor: ['#1DA1F2', '#4267B2', '#E1306C', '#1E4D92', '#FF5722', '#64748B'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+
+            // Sentiment Chart
+            const sentimentCtx = document.getElementById('sentimentChart').getContext('2d');
+            new Chart(sentimentCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Positive',
+                        data: [65, 70, 60, 65, 70, 65, 60, 65, 70, 75, 70, 75],
+                        borderColor: '#22C55E',
+                        tension: 0.4,
+                        fill: false
+                    }, {
+                        label: 'Neutral',
+                        data: [25, 20, 30, 25, 20, 25, 30, 25, 20, 15, 20, 15],
+                        borderColor: '#64748B',
+                        tension: 0.4,
+                        fill: false
+                    }, {
+                        label: 'Negative',
+                        data: [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+                        borderColor: '#EF4444',
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#f0f0f0'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Sentiment by Category Chart
+            const sentimentCategoryCtx = document.getElementById('sentimentCategoryChart').getContext('2d');
+            new Chart(sentimentCategoryCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Sports', 'Politics', 'Entertainment', 'Technology', 'Business'],
+                    datasets: [{
+                        label: 'Positive',
+                        data: [65, 45, 70, 55, 60],
+                        backgroundColor: '#22C55E',
+                        barPercentage: 0.6,
+                        categoryPercentage: 0.8
+                    }, {
+                        label: 'Neutral',
+                        data: [25, 35, 20, 30, 25],
+                        backgroundColor: '#64748B',
+                        barPercentage: 0.6,
+                        categoryPercentage: 0.8
+                    }, {
+                        label: 'Negative',
+                        data: [10, 20, 10, 15, 15],
+                        backgroundColor: '#EF4444',
+                        barPercentage: 0.6,
+                        categoryPercentage: 0.8
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            stacked: true,
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Add click handlers for time filter buttons
+            document.querySelectorAll('.time-filter button').forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    document.querySelectorAll('.time-filter button').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    // Add active class to clicked button
+                    button.classList.add('active');
+                });
+            });
+
+            // Project Selector
+            const projectSelector = document.querySelector('.project-selector');
+            const projectDropdown = document.querySelector('.project-dropdown');
+            const projectName = document.querySelector('.project-name');
+            const projectOptions = document.querySelectorAll('.project-option');
+
+            projectSelector.addEventListener('click', (e) => {
+                e.stopPropagation();
+                projectSelector.classList.toggle('active');
+                projectDropdown.classList.toggle('show');
+            });
+
+            projectOptions.forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const name = option.querySelector('.project-option-name').textContent;
+                    projectName.textContent = name;
+                    
+                    projectOptions.forEach(opt => opt.classList.remove('active'));
+                    option.classList.add('active');
+                    
+                    projectSelector.classList.remove('active');
+                    projectDropdown.classList.remove('show');
+                });
+            });
+
+            document.addEventListener('click', () => {
+                projectSelector.classList.remove('active');
+                projectDropdown.classList.remove('show');
+            });
+
+            // Dark Mode Toggle functionality
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            darkModeToggle.addEventListener('change', () => {
+                document.body.classList.toggle('dark-mode');
+            });
+        });
+    </script>
+</body>
+</html> 

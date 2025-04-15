@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summary - Cubox</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="assets/images/logo.svg" alt="Cubox">
+            </div>
+            
+            <div class="project-selector">
+                <div class="project-info">
+                    <div class="project-name">Project Name</div>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">MAIN</div>
+                <ul class="nav-items">
+                    <li class="nav-item">
+                        <a href="dashboard.html" class="nav-link">
+                            <i class="fas fa-chart-line"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="mention.html" class="nav-link">
+                            <i class="fas fa-comments"></i>
+                            Mention
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="summary.html" class="nav-link active">
+                            <i class="fas fa-file-alt"></i>
+                            Summary
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="analysis.html" class="nav-link">
+                            <i class="fas fa-chart-bar"></i>
+                            Analysis
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="sources.html" class="nav-link">
+                            <i class="fas fa-database"></i>
+                            Sources
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="compare.html" class="nav-link">
+                            <i class="fas fa-clone"></i>
+                            Compare
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">REPORTS</div>
+                <ul class="nav-items">
+                    <li class="nav-item">
+                        <a href="email-report.html" class="nav-link">
+                            <i class="fas fa-envelope"></i>
+                            Email Report
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pdf-report.html" class="nav-link">
+                            <i class="fas fa-file-pdf"></i>
+                            PDF Report
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="excel-report.html" class="nav-link">
+                            <i class="fas fa-file-excel"></i>
+                            Excel Report
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="ai-assistance.html" class="nav-link">
+                            <i class="fas fa-robot"></i>
+                            AI Assistance
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Controls</div>
+                <ul class="nav-items">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link with-toggle">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <i class="fas fa-moon"></i>
+                                Dark Mode
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="darkModeToggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="dashboard-header">
+                <h1 class="page-title">Summary</h1>
+                <div class="header-right">
+                    <div class="notification-badge">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="language-selector" id="languageSelector">
+                        <img src="https://flagcdn.com/w20/us.png" alt="English" id="currentFlag">
+                        <span id="currentLang">EN</span>
+                        <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--text-secondary);"></i>
+                        <div class="language-dropdown" id="languageDropdown">
+                            <div class="language-option active" data-lang="en" data-flag="us">
+                                <img src="https://flagcdn.com/w20/us.png" alt="English">
+                                <span>English</span>
+                            </div>
+                            <div class="language-option" data-lang="id" data-flag="id">
+                                <img src="https://flagcdn.com/w20/id.png" alt="Indonesia">
+                                <span>Indonesia</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-avatar">
+                        <div class="avatar-image">A</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top cards container -->
+            <div class="top-cards-container">
+                <!-- Summary Card -->
+                <div class="card summary-overview">
+                    <div class="card-header">
+                        <h2 class="card-title">Summary</h2>
+                    </div>
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <div class="metric-header">
+                                <span>Mention</span>
+                            </div>
+                            <div class="metric-value">12K</div>
+                            <div class="metric-trend positive">+20K (47.35%)</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-header">
+                                <span>SM Reach</span>
+                            </div>
+                            <div class="metric-value">8K</div>
+                            <div class="metric-trend positive">+1K (8.45%)</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-header">
+                                <span>Interaction</span>
+                            </div>
+                            <div class="metric-value">10K</div>
+                            <div class="metric-trend positive">+2K (13.53%)</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-header">
+                                <span>Positive</span>
+                            </div>
+                            <div class="metric-value">3K</div>
+                            <div class="metric-trend positive">+25K (13.53%)</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-header">
+                                <span>Negative</span>
+                            </div>
+                            <div class="metric-value">172</div>
+                            <div class="metric-trend positive">+25K (12.53%)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mentions Card -->
+                <div class="card mentions-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Mentions</h2>
+                        <div class="tab-buttons">
+                            <button class="tab-button active" data-tab="latest">Latest Mention</button>
+                            <button class="tab-button" data-tab="popular">Top Popular Mentions</button>
+                        </div>
+                    </div>
+                    <div class="tab-content">
+                        <!-- Latest Mentions Tab -->
+                        <div class="tab-pane active" id="latest">
+                            <div class="mentions-list">
+                                <div class="mention-item">
+                                    <div class="mention-avatar" style="background: #7C3AED">K</div>
+                                    <div class="mention-content">
+                                        <div class="mention-header">
+                                            <span class="mention-name">KOMPASTV</span>
+                                            <span class="mention-time">2 hours ago</span>
+                                        </div>
+                                        <p class="mention-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                        <div class="mention-stats">
+                                            <span class="stat">
+                                                <i class="fas fa-heart"></i>
+                                                1.2K
+                                            </span>
+                                            <span class="stat">
+                                                <i class="fas fa-comment"></i>
+                                                245
+                                            </span>
+                                            <span class="stat">
+                                                <i class="fas fa-share"></i>
+                                                89
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mention-item">
+                                    <div class="mention-avatar" style="background: #3B82F6">D</div>
+                                    <div class="mention-content">
+                                        <div class="mention-header">
+                                            <span class="mention-name">DETIKCOM</span>
+                                            <span class="mention-time">3 hours ago</span>
+                                        </div>
+                                        <p class="mention-text">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                        <div class="mention-stats">
+                                            <span class="stat">
+                                                <i class="fas fa-heart"></i>
+                                                856
+                                            </span>
+                                            <span class="stat">
+                                                <i class="fas fa-comment"></i>
+                                                189
+                                            </span>
+                                            <span class="stat">
+                                                <i class="fas fa-share"></i>
+                                                45
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Popular Mentions Tab -->
+                        <div class="tab-pane" id="popular">
+                            <div class="mentions-list">
+                                <div class="mention-item">
+                                    <div class="mention-avatar" style="background: #F59E0B">L</div>
+                                    <div class="mention-content">
+                                        <div class="mention-header">
+                                            <span class="mention-name">LIPUTAN6</span>
+                                            <span class="mention-time">1 day ago</span>
+                                        </div>
+                                        <p class="mention-text">This post went viral with the highest engagement rate this week. Excepteur sint occaecat cupidatat non proident.</p>
+                                        <div class="mention-stats">
+                                            <span class="stat">
+                                                <i class="fas fa-heart"></i>
+                                                5.2K
+                                            </span>
+                                            <span class="stat">
+                                                <i class="fas fa-comment"></i>
+                                                1.2K
+                                            </span>
+                                            <span class="stat">
+                                                <i class="fas fa-share"></i>
+                                                856
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mention-item">
+                                    <div class="mention-avatar" style="background: #EC4899">V</div>
+                                    <div class="mention-content">
+                                        <div class="mention-header">
+                                            <span class="mention-name">VIVA</span>
+                                            <span class="mention-time">2 days ago</span>
+                                        </div>
+                                        <p class="mention-text">This content received the most shares across all platforms. Sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                        <div class="mention-stats">
+                                            <span class="stat">
+                                                <i class="fas fa-heart"></i>
+                                                4.8K
+                                            </span>
+                                            <span class="stat">
+                                                <i class="fas fa-comment"></i>
+                                                956
+                                            </span>
+                                            <span class="stat">
+                                                <i class="fas fa-share"></i>
+                                                1.2K
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="view-more">
+                        <button class="view-more-btn">
+                            view more
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-grid">
+                <!-- Mention Chart -->
+                <div class="card mention-chart">
+                    <div class="card-header">
+                        <h2 class="card-title">Mention</h2>
+                        <div class="time-filter">
+                            <button class="filter-btn active">Days</button>
+                            <button class="filter-btn">Weeks</button>
+                            <button class="filter-btn">Month</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="mentionChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Reach Chart -->
+                <div class="card reach-chart">
+                    <div class="card-header">
+                        <h2 class="card-title">Reach</h2>
+                        <div class="time-filter">
+                            <button class="filter-btn active">Days</button>
+                            <button class="filter-btn">Weeks</button>
+                            <button class="filter-btn">Month</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="reachChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Profile Card -->
+                <div class="card profile-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Profile</h2>
+                        <div class="tab-buttons">
+                            <button class="tab-button active">Top Public Profile</button>
+                            <button class="tab-button">Most Influential Sites</button>
+                        </div>
+                    </div>
+                    <div class="profile-list">
+                        <div class="profile-item">
+                            <div class="profile-avatar" style="background: #7C3AED">K</div>
+                            <div class="profile-info">
+                                <div class="profile-name">KOMPASTV</div>
+                                <div class="profile-stats">
+                                    <div class="stat">
+                                        <span class="stat-value">24.2%</span>
+                                        <span class="stat-label">shared</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value">54 M</span>
+                                        <span class="stat-label">influence</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="profile-item">
+                            <div class="profile-avatar" style="background: #3B82F6">D</div>
+                            <div class="profile-info">
+                                <div class="profile-name">DETIKCOM</div>
+                                <div class="profile-stats">
+                                    <div class="stat">
+                                        <span class="stat-value">18.5%</span>
+                                        <span class="stat-label">shared</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value">42 M</span>
+                                        <span class="stat-label">influence</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="profile-item">
+                            <div class="profile-avatar" style="background: #22C55E">T</div>
+                            <div class="profile-info">
+                                <div class="profile-name">TRIBUNNEWS</div>
+                                <div class="profile-stats">
+                                    <div class="stat">
+                                        <span class="stat-value">15.8%</span>
+                                        <span class="stat-label">shared</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value">38 M</span>
+                                        <span class="stat-label">influence</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="profile-item">
+                            <div class="profile-avatar" style="background: #F59E0B">L</div>
+                            <div class="profile-info">
+                                <div class="profile-name">LIPUTAN6</div>
+                                <div class="profile-stats">
+                                    <div class="stat">
+                                        <span class="stat-value">12.3%</span>
+                                        <span class="stat-label">shared</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value">35 M</span>
+                                        <span class="stat-label">influence</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="profile-item">
+                            <div class="profile-avatar" style="background: #EC4899">V</div>
+                            <div class="profile-info">
+                                <div class="profile-name">VIVA</div>
+                                <div class="profile-stats">
+                                    <div class="stat">
+                                        <span class="stat-value">10.7%</span>
+                                        <span class="stat-label">shared</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value">32 M</span>
+                                        <span class="stat-label">influence</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Media Sources Card -->
+                <div class="card media-sources">
+                    <div class="card-header">
+                        <h2 class="card-title">Media Sources</h2>
+                    </div>
+                    <div class="sources-grid">
+                        <div class="source-item">
+                            <div class="source-icon facebook">
+                                <i class="fab fa-facebook"></i>
+                            </div>
+                            <div class="source-info">
+                                <div class="source-value">10K</div>
+                                <div class="source-name">Facebook</div>
+                            </div>
+                            <div class="source-trend">+10%</div>
+                        </div>
+                        <div class="source-item">
+                            <div class="source-icon twitter">
+                                <i class="fab fa-twitter"></i>
+                            </div>
+                            <div class="source-info">
+                                <div class="source-value">8.5K</div>
+                                <div class="source-name">Twitter</div>
+                            </div>
+                            <div class="source-trend">+15%</div>
+                        </div>
+                        <div class="source-item">
+                            <div class="source-icon instagram">
+                                <i class="fab fa-instagram"></i>
+                            </div>
+                            <div class="source-info">
+                                <div class="source-value">7.2K</div>
+                                <div class="source-name">Instagram</div>
+                            </div>
+                            <div class="source-trend">+8%</div>
+                        </div>
+                        <div class="source-item">
+                            <div class="source-icon youtube">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+                            <div class="source-info">
+                                <div class="source-value">6.8K</div>
+                                <div class="source-name">YouTube</div>
+                            </div>
+                            <div class="source-trend">+12%</div>
+                        </div>
+                        <div class="source-item">
+                            <div class="source-icon linkedin">
+                                <i class="fab fa-linkedin"></i>
+                            </div>
+                            <div class="source-info">
+                                <div class="source-value">5.4K</div>
+                                <div class="source-name">LinkedIn</div>
+                            </div>
+                            <div class="source-trend">+5%</div>
+                        </div>
+                        <div class="source-item">
+                            <div class="source-icon tiktok">
+                                <i class="fab fa-tiktok"></i>
+                            </div>
+                            <div class="source-info">
+                                <div class="source-value">4.9K</div>
+                                <div class="source-name">TikTok</div>
+                            </div>
+                            <div class="source-trend">+20%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Language Selector functionality
+            const languageSelector = document.getElementById('languageSelector');
+            const languageDropdown = document.getElementById('languageDropdown');
+            const currentFlag = document.getElementById('currentFlag');
+            const currentLang = document.getElementById('currentLang');
+
+            languageSelector.addEventListener('click', (e) => {
+                e.stopPropagation();
+                languageDropdown.classList.toggle('show');
+            });
+
+            document.addEventListener('click', () => {
+                languageDropdown.classList.remove('show');
+            });
+
+            document.querySelectorAll('.language-option').forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const lang = option.dataset.lang;
+                    const flag = option.dataset.flag;
+                    
+                    // Update current selection
+                    currentFlag.src = `https://flagcdn.com/w20/${flag}.png`;
+                    currentLang.textContent = lang.toUpperCase();
+                    
+                    // Update active state
+                    document.querySelectorAll('.language-option').forEach(opt => {
+                        opt.classList.remove('active');
+                    });
+                    option.classList.add('active');
+                    
+                    languageDropdown.classList.remove('show');
+                });
+            });
+
+            // Tab switching functionality
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+
+            function switchTab(tabId) {
+                // Remove active class from all buttons and panes
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabPanes.forEach(pane => pane.classList.remove('active'));
+
+                // Add active class to clicked button and corresponding pane
+                const activeButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
+                const activePane = document.getElementById(tabId);
+                
+                if (activeButton && activePane) {
+                    activeButton.classList.add('active');
+                    activePane.classList.add('active');
+                }
+            }
+
+            // Add click event listeners to tab buttons
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.getAttribute('data-tab');
+                    switchTab(tabId);
+                });
+            });
+
+            // Initialize with the first tab active
+            switchTab('latest');
+
+            // Mention Chart
+            const mentionCtx = document.getElementById('mentionChart').getContext('2d');
+            new Chart(mentionCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        data: [150, 180, 160, 140, 120, 160, 180, 210, 180, 160, 140, 120],
+                        borderColor: '#3B82F6',
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#f0f0f0'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Reach Chart
+            const reachCtx = document.getElementById('reachChart').getContext('2d');
+            new Chart(reachCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        data: [100, 120, 180, 200, 180, 140, 120, 140, 120, 100, 80, 100],
+                        borderColor: '#22C55E',
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#f0f0f0'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

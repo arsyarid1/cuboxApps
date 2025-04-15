@@ -1,0 +1,133 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "DKI Jakarta",
+        "id": "31",
+        "capital": "Jakarta",
+        "population": 10800000,
+        "area": 664,
+        "density": 16265,
+        "region": "Java"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[106.7340, -6.3715], [106.9340, -6.3715], [106.9340, -6.1715], [106.7340, -6.1715], [106.7340, -6.3715]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Jawa Barat",
+        "id": "32",
+        "capital": "Bandung",
+        "population": 48600000,
+        "area": 35245,
+        "density": 1379,
+        "region": "Java"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[106.4, -7.5], [108.8, -7.5], [108.8, -6.0], [106.4, -6.0], [106.4, -7.5]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Jawa Tengah",
+        "id": "33",
+        "capital": "Semarang",
+        "population": 36700000,
+        "area": 32800,
+        "density": 1119,
+        "region": "Java"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[108.8, -7.9], [111.2, -7.9], [111.2, -6.5], [108.8, -6.5], [108.8, -7.9]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Jawa Timur",
+        "id": "35",
+        "capital": "Surabaya",
+        "population": 40600000,
+        "area": 47921,
+        "density": 847,
+        "region": "Java"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[111.2, -8.7], [114.4, -8.7], [114.4, -6.8], [111.2, -6.8], [111.2, -8.7]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sumatera Utara",
+        "id": "12",
+        "capital": "Medan",
+        "population": 14800000,
+        "area": 72981,
+        "density": 203,
+        "region": "Sumatra"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[98.0, -2.5], [100.2, -2.5], [100.2, 4.0], [98.0, 4.0], [98.0, -2.5]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sumatera Selatan",
+        "id": "16",
+        "capital": "Palembang",
+        "population": 8500000,
+        "area": 91592,
+        "density": 93,
+        "region": "Sumatra"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[102.0, -5.0], [104.8, -5.0], [104.8, -2.0], [102.0, -2.0], [102.0, -5.0]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sulawesi Selatan",
+        "id": "73",
+        "capital": "Makassar",
+        "population": 9000000,
+        "area": 46717,
+        "density": 193,
+        "region": "Sulawesi"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[119.3, -5.5], [120.5, -5.5], [120.5, -3.0], [119.3, -3.0], [119.3, -5.5]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bali",
+        "id": "51",
+        "capital": "Denpasar",
+        "population": 4300000,
+        "area": 5780,
+        "density": 744,
+        "region": "Lesser Sunda Islands"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[114.4, -8.9], [115.7, -8.9], [115.7, -8.0], [114.4, -8.0], [114.4, -8.9]]]
+      }
+    }
+  ]
+} 
